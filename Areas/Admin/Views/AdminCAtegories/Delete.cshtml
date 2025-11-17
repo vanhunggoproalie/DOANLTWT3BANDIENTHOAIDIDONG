@@ -1,0 +1,29 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.CAtegory
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLAyout.cshtml";
+}
+
+<h2 class="bg-success">Xóa Danh Mục</h2>
+<h4 class="alert-danger">Bạn Thực Sự Muốn Xóa Danh Mục Này?</h4>
+@using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                Tên Danh Mục 
+            </div>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.CategoryName)
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Xóa" class="btn btn-primary"/>
+                    @Html.ActionLink("Quay lại danh sách","Index", null, new {@class="btn btn-primary"})
+                </div>
+            </div>
+        </div>
+    </div>
+            }

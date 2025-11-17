@@ -1,0 +1,229 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.ProductDetailsVM
+@{
+    ViewBag.Title = "ProductDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    
+    .pro {
+        padding: 30px 10%; /* Thêm padding 2 bên */
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f4f4; /* Màu nền xám nhạt */
+    }
+
+    /* Card chi tiết sản phẩm (khung trắng) */
+    .product-detail-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        display: flex;
+        flex-wrap: wrap; /* Cho responsive */
+        padding: 24px;
+        gap: 30px; /* Khoảng cách giữa cột ảnh và cột thông tin */
+        margin-bottom: 30px; /* Tách biệt với phần bên dưới */
+    }
+
+    /* Cột trái: Thư viện ảnh */
+    .product-gallery {
+        flex: 1; /* Tự động co giãn */
+        min-width: 300px; /* Không bị co quá nhỏ */
+    }
+
+        .product-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+    /* Cột phải: Thông tin sản phẩm */
+    .product-info {
+        flex: 1.5; /* Rộng hơn cột ảnh */
+        min-width: 300px;
+    }
+
+        .product-info .product-name {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+    /* Khối giá */
+    .product-price-box {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: baseline; /* Căn chỉnh giá */
+        gap: 12px;
+    }
+
+        .product-price-box .new-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e4002b; /* Màu đỏ */
+        }
+
+        .product-price-box .old-price {
+            font-size: 16px;
+            color: #777;
+            text-decoration: line-through;
+        }
+
+    /* Mô tả */
+    .product-description {
+        font-size: 15px;
+        line-height: 1.6;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Chọn số lượng */
+    .quantity-selector {
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .quantity-selector label {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+
+        .quantity-selector .form-control {
+            width: 80px;
+            text-align: center;
+        }
+
+    /* Các nút hành động */
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+    }
+
+        .action-buttons button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            flex: 1; /* 2 nút bằng nhau */
+        }
+
+            .action-buttons button:hover {
+                opacity: 0.9;
+            }
+
+    .btn-add-cart {
+        background-color: #ff424e;
+        color: white;
+    }
+
+    .btn-buy-now {
+        background-color: #333;
+        color: white;
+    }
+
+    /* Phần chứa 2 partial view (TÁCH BIỆT BÊN DƯỚI) */
+    .product-suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 100%;
+    }
+
+        /* Định dạng cho 2 partial view nằm cạnh nhau */
+        /* Bạn có thể bỏ phần này nếu muốn chúng nằm chồng lên nhau */
+        .product-suggestions > div {
+            flex: 1;
+            min-width: 300px; /* Để responsive */
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+    /* Responsive cho di động */
+    @@media (max-width: 768px) {
+        .pro {
+            padding: 15px;
+        }
+
+        .product-detail-card {
+            flex-direction: column;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+
+<div class="container-fluid pro">
+
+    <div class="product-detail-card">
+
+        <div class="product-gallery">
+            <img src="@Url.Content("~/Content/Images/" + Model.product.ProductImage)" alt="@Model.product.ProductName" />
+        </div>
+
+        <div class="product-info">
+
+            @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post))
+            {
+                @Html.Hidden("id", Model.product.ProductID)
+
+                <h1 class="product-name">@Model.product.ProductName</h1>
+
+                <div class="product-price-box">
+                    <span class="new-price">@Model.product.ProductPrice.ToString("N0")₫</span>
+
+                    @{
+                        decimal oldPrice = Model.product.ProductPrice * 1.15m;
+                    }
+                    <span class="old-price">@oldPrice.ToString("N0")₫</span>
+                </div>
+
+                <p class="product-description">
+                    @Html.Raw(Model.product.ProductDecription.Replace("\n", "<br />"))
+                </p>
+
+                <div class="quantity-selector">
+                    <label>Số lượng:</label>
+                    @Html.TextBoxFor(model => model.quantity, new
+                    {
+                        @class = "form-control",
+                        @type = "number",
+                        @min = 1,
+                        @Value = Model.quantity,
+                        @name = "quantity"
+                    })
+                </div>
+
+                <div class="action-buttons">
+                    <button type="submit" class="btn-add-cart">
+                        Thêm vào giỏ hàng
+                    </button>
+
+                    <button type="submit" class="btn-buy-now"
+                            formaction="@Url.Action("BuyNow", "Cart")">
+                        Mua ngay
+                    </button>
+                </div>
+            }
+        </div>
+    </div> <div class="product-suggestions">
+        <div>
+            @Html.Partial("_PVRelatedProduct", Model)
+        </div>
+        <div>
+            @Html.Partial("_PVTopProduct", Model)
+        </div>
+    </div>
+
+</div>

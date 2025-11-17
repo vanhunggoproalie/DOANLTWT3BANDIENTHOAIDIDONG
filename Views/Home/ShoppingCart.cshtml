@@ -1,0 +1,374 @@
+﻿
+@{
+    ViewBag.Title = "ShoppingCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .cart-container {
+            display: flex;
+            gap: 25px;
+            max-width: 1300px;
+            margin: auto;
+        }
+
+        .cart-left {
+            flex: 2.5;
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+            .cart-left h3 {
+                font-size: 20px;
+                margin-bottom: 15px;
+                color: #222;
+            }
+
+                .cart-left h3 a {
+                    text-decoration: none;
+                    color: #0071e3;
+                }
+
+        .select-all {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+            .select-all input {
+                transform: scale(1.3);
+                margin-right: 8px;
+            }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            gap: 15px;
+            transition: all 0.2s ease;
+        }
+
+            .cart-item:hover {
+                background: #f0f8ff;
+            }
+
+            .cart-item img {
+                width: 95px;
+                height: 95px;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+
+        .item-info {
+            flex: 2;
+        }
+
+        .item-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin: 0 0 5px 0;
+            color: #222;
+        }
+
+        .item-option {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .item-price {
+            text-align: right;
+            min-width: 130px;
+        }
+
+        .new-price {
+            color: #e60023;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .item-quantity button {
+                width: 30px;
+                height: 30px;
+                background: #eee;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 18px;
+            }
+
+            .item-quantity span {
+                width: 25px;
+                text-align: center;
+                font-size: 16px;
+            }
+
+        .remove {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            color: #999;
+            transition: color 0.2s ease;
+        }
+
+            .remove:hover {
+                color: #e60023;
+            }
+
+        .cart-right {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .discount-box,
+        .member {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+            .discount-box button {
+                background: #f2f2f2;
+                border: none;
+                font-size: 20px;
+                border-radius: 50%;
+                width: 28px;
+                height: 28px;
+                cursor: pointer;
+            }
+
+        .member {
+            background: #f9f9f9;
+            color: #555;
+        }
+
+        .summary {
+            margin-top: 20px;
+        }
+
+            .summary h4 {
+                font-size: 18px;
+                margin-bottom: 15px;
+                color: #222;
+            }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .total {
+            font-weight: bold;
+            color: #e60023;
+            font-size: 18px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: #e60023;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: bold;
+            transition: background 0.2s ease;
+        }
+
+            .checkout-btn:hover {
+                background: #cc0020;
+            }
+    </style>
+    
+    </head>
+<body>
+
+    <div class="cart-container">
+        <div class="cart-left">
+            <h3><a href="#">Trang chủ</a> / Giỏ hàng</h3>
+            <div class="select-all">
+                <input type="checkbox" id="selectAll">
+                <label for="selectAll">Chọn tất cả</label>
+            </div>
+
+            <div id="cart-items">
+                <!-- Sản phẩm 1 -->
+                <div class="cart-item">
+                    <input type="checkbox" class="item-check">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/64x0/filters:format(webp):quality(75)/samssung_galaxy_s24_fe_xanh_723e4e6443.png" alt="">
+                    <div class="item-info">
+                        <p class="item-name">Samsung Galaxy S24 FE 5G 8GB 128GB Xanh biển</p>
+                        <p class="item-option">Màu: Xanh biển</p>
+                    </div>
+                    <div class="item-price">
+                        <p class="new-price">11.490.000₫</p>
+                        <p class="old-price">16.690.000₫</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="minus">-</button>
+                        <span class="quantity">1</span>
+                        <button class="plus">+</button>
+                    </div>
+                    <button class="remove">🗑</button>
+                </div>
+
+                <!-- Sản phẩm 2 -->
+                <div class="cart-item">
+                    <input type="checkbox" class="item-check">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/64x0/filters:format(webp):quality(75)/iphone_17_pro_cosmic_orange_1_12e8ea1358.png" alt="">
+                    <div class="item-info">
+                        <p class="item-name">iPhone 17 Pro 256GB Cam Vũ Trụ</p>
+                        <p class="item-option">Màu: Cam Vũ Trụ</p>
+                    </div>
+                    <div class="item-price">
+                        <p class="new-price">34.990.000₫</p>
+                        <p class="old-price">36.990.000₫</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="minus">-</button>
+                        <span class="quantity">1</span>
+                        <button class="plus">+</button>
+                    </div>
+                    <button class="remove">🗑</button>
+                </div>
+                <!-- Sản phẩm 1 -->
+                <div class="cart-item">
+                    <input type="checkbox" class="item-check">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/64x0/filters:format(webp):quality(75)/honor_pad_x7_wifi_xam_6_f267e37807.png" alt="">
+                    <div class="item-info">
+                        <p class="item-name">Samsung Galaxy S24 FE 5G 8GB 128GB Xanh biển</p>
+                        <p class="item-option">Màu: Xanh biển</p>
+                    </div>
+                    <div class="item-price">
+                        <p class="new-price">11.490.000₫</p>
+                        <p class="old-price">16.690.000₫</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="minus">-</button>
+                        <span class="quantity">1</span>
+                        <button class="plus">+</button>
+                    </div>
+                    <button class="remove">🗑</button>
+                </div>
+                <div class="cart-item">
+                    <input type="checkbox" class="item-check">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/64x0/filters:format(webp):quality(75)/xiaomi_redmi_pad_se_8_7_den_2_7b0a2b83f6.jpg" alt="">
+                    <div class="item-info">
+                        <p class="item-name">iPhone 17 Pro 256GB Cam Vũ Trụ</p>
+                        <p class="item-option">Màu: Cam Vũ Trụ</p>
+                    </div>
+                    <div class="item-price">
+                        <p class="new-price">34.990.000₫</p>
+                        <p class="old-price">36.990.000₫</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="minus">-</button>
+                        <span class="quantity">1</span>
+                        <button class="plus">+</button>
+                    </div>
+                    <button class="remove">🗑</button>
+                </div>
+                <div class="cart-item">
+                    <input type="checkbox" class="item-check">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                    <div class="item-info">
+                        <p class="item-name">iPhone 15 Pro 128GB</p>
+                        <p class="item-option">Màu: Đen Huyền Bí</p>
+                    </div>
+                    <div class="item-price">
+                        <p class="new-price">28.990.000 ₫</p>
+                        <p class="old-price">33.990.000₫</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="minus">-</button>
+                        <span class="quantity">1</span>
+                        <button class="plus">+</button>
+                    </div>
+                    <button class="remove">🗑</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-right">
+            <div class="discount-box">
+                <p>Chọn hoặc nhập ưu đãi</p>
+                <button>+</button>
+            </div>
+
+            <div class="member">
+                <p>Đăng ký thành viên để kích hoạt điểm thưởng</p>
+            </div>
+
+            <div class="summary">
+                <h4>Thông tin đơn hàng</h4>
+                <div class="summary-row">
+                    <span>Tổng tiền</span>
+                    <span id="total-price">0₫</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tổng khuyến mãi</span>
+                    <span id="discount">-0₫</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Cần thanh toán</span>
+                    <span id="final-price">0₫</span>
+                </div>
+                <button class="checkout-btn">Xác nhận đơn</button>
+            </div>
+        </div>
+    </div>
+
+    @*<script src="cart.js"></script>*@
+    <script src="~/Content/ShoppingCart.js"></script>
+
+</body>
+</html>
+
+

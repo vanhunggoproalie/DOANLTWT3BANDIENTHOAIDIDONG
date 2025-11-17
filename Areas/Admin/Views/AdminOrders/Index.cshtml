@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DOANLTWT3BANDIENTHOAIDIDONG.Models.Order>
+@{
+    ViewBag.Title = "Quản lý Đơn Hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Quản Lý Danh Sách Đơn Hàng</h2>
+
+@* Theo yêu cầu (image_a62f58.png), trang Index không có nút Thêm mới *@
+
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th style="width: 10%;">Mã Đơn</th>
+            <th style="width: 20%;">Khách Hàng</th>
+            <th style="width: 15%;">Ngày Đặt</th>
+            <th style="width: 15%;">Tổng Tiền</th>
+            <th style="width: 15%;">Trạng Thái</th>
+            <th style="width: 25%;">Chức Năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <span class="badge badge-secondary p-2">#@Html.DisplayFor(modelItem => item.OrderID)</span>
+                </td>
+                <td>
+                    <i class="fas fa-user"></i>
+                    @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @{
+                        // Định dạng tiền tệ
+                        var totalAmount = item.TotalAmount.ToString("#,##0", new System.Globalization.CultureInfo("vi-VN"));
+                    }
+                    <span class="font-weight-bold text-danger">@totalAmount ₫</span>
+                </td>
+                <td>
+                    @{
+                        string statusClass = "";
+                        string status = item.PaymentStatus != null ? item.PaymentStatus.ToLower() : "";
+                        if (status.Contains("thành công") || status.Contains("đã thanh toán"))
+                        {
+                            statusClass = "badge-success";
+                        }
+                        else if (status.Contains("chờ"))
+                        {
+                            statusClass = "badge-warning";
+                        }
+                        else
+                        {
+                            statusClass = "badge-primary"; // Mặc định
+                        }
+                    }
+                    <span class="badge @statusClass">
+                        @Html.DisplayFor(modelItem => item.PaymentStatus)
+                    </span>
+                </td>
+                <td class="text-center">
+                    @* Chỉ hiển thị nút Chi Tiết (Details) theo yêu cầu *@
+                    @Html.ActionLink(" Chi Tiết", "Details", new { id = item.OrderID }, new { @class = "btn btn-sm btn-info" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        // Có thể thêm mã JavaScript ở đây nếu cần cho các chức năng quản lý khác
+    </script>
+}

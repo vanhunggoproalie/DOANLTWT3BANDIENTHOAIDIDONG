@@ -1,0 +1,274 @@
+﻿
+@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.LoginVM
+
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<style>
+
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 0;
+            background: #f6f7fb;
+            font-family: Inter, system-ui, Arial, sans-serif;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 40px 45px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 22px;
+            color: #222;
+        }
+
+        .login-form .login-group {
+            margin-bottom: 18px;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+            .login-form input:focus {
+                border-color: #e60012;
+                outline: none;
+            }
+
+        .login-remember {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0 20px;
+            font-size: 14px;
+        }
+
+        .login-forgot {
+            text-decoration: none;
+            color: #e60012;
+            transition: color 0.3s;
+        }
+
+            .login-forgot:hover {
+                color: #b8000f;
+            }
+
+        .login-btn {
+            width: 100%;
+            background: #e60012;
+            color: white;
+            border: none;
+            padding: 12px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .login-btn:hover {
+                background: #b8000f;
+            }
+
+        .login-register {
+            text-align: center;
+            margin-top: 16px;
+            color: #444;
+            font-size: 14px;
+        }
+
+            .login-register a {
+                color: #e60012;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                .login-register a:hover {
+                    text-decoration: underline;
+                }
+    </style>*@
+<style>
+    body {
+        background: #f5f6fa;
+        font-family: Inter, Arial, sans-serif;
+    }
+
+    .login-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        padding: 40px 0;
+    }
+
+    .login-container {
+        background: #fff;
+        padding: 36px 42px;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        width: 100%;
+        max-width: 420px;
+        animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-title {
+        text-align: center;
+        margin-bottom: 28px;
+        font-size: 26px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .login-group {
+        margin-bottom: 18px;
+    }
+
+        .login-group label {
+            font-weight: 600;
+            font-size: 15px;
+            color: #444;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: 0.25s;
+    }
+
+        .form-control:focus {
+            border-color: #e60012;
+            box-shadow: 0 0 0 2px rgba(230, 0, 18, 0.15);
+            outline: none;
+        }
+
+    .login-remember {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .login-forgot {
+        color: #e60012;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+        .login-forgot:hover {
+            text-decoration: underline;
+        }
+
+    .login-btn {
+        width: 100%;
+        background: #e60012;
+        color: white;
+        border: none;
+        padding: 13px 0;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+        .login-btn:hover {
+            background: #c1000e;
+            transform: translateY(-1px);
+        }
+
+    .login-register {
+        text-align: center;
+        margin-top: 18px;
+        font-size: 14px;
+        color: #555;
+    }
+
+        .login-register a {
+            color: #e60012;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .login-register a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+
+<div class="login-page">
+    <div class="login-container">
+        <h2 class="login-title">Đăng nhập</h2>
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="login-group">
+                @Html.LabelFor(m => m.Username, "Tên đăng nhập hoặc Email")
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Nhập tên đăng nhập hoặc email" })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="login-group">
+                @Html.LabelFor(m => m.Password, "Mật khẩu")
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Nhập mật khẩu" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="login-remember">
+                <label>
+                    <input type="checkbox" name="remember"> Ghi nhớ đăng nhập
+                </label>
+                <a href="@Url.Action("ForgotPassword", "Account")" class="login-forgot">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" class="login-btn">Đăng nhập</button>
+
+            <p class="login-register">
+                Chưa có tài khoản?
+                <a href="@Url.Action("Register", "Account")">Đăng ký ngay</a>
+            </p>
+        }
+    </div>
+</div>
+

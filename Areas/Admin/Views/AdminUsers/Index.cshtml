@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DOANLTWT3BANDIENTHOAIDIDONG.Models.User>
+
+@{
+    ViewBag.Title = "Quản lý Người Dùng Quản Trị";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mt-4">Quản lý Tài Khoản Quản Trị</h2>
+<hr />
+
+<p>
+ 
+    @Html.ActionLink("➕ Thêm Mới Tài Khoản", "Create", null, new { @class = "btn btn-success mb-3" })
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th style="width: 25%; color:black">Tên Đăng Nhập</th>
+            <th style="width: 25%;">Mật Khẩu</th>
+            <th style="width: 15%;">Vai Trò</th>
+            <th style="width: 35%;">Chức Năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <i class="fas fa-user-shield text-primary"></i>
+                    <span class="font-weight-bold">@Html.DisplayFor(modelItem => item.Username)</span>
+                </td>
+                <td>
+                   
+                    <span class="text-info">@Html.DisplayFor(modelItem => item.Password)</span>
+                </td>
+                <td>
+                    @{
+                       
+                        string role = item.UserRole != null ? item.UserRole.Trim().ToLower() : "";
+                        string badgeClass = role == "admin" ? "badge-success" : "badge-secondary"; // Luôn là Admin nếu Controller hoạt động đúng
+                    }
+                    <span class="badge @badgeClass p-2">
+                        <i class="fas fa-crown"></i> @item.UserRole
+                    </span>
+                </td>
+                <td class="text-center">
+                   
+                    @Html.ActionLink(" Sửa", "Edit", new { id = item.Username }, new { @class = "btn btn-sm btn-outline-info mr-2" })
+                    @Html.ActionLink(" Xóa", "Delete", new { id = item.Username }, new { @class = "btn btn-sm btn-outline-danger" })
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

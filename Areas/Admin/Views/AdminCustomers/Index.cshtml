@@ -1,0 +1,50 @@
+﻿@model IEnumerable<DOANLTWT3BANDIENTHOAIDIDONG.Models.Customer>
+
+@{
+    // Đặt tiêu đề cho trang
+    ViewBag.Title = "Quản lý Khách Hàng";
+
+    // Đảm bảo đường dẫn Layout là chính xác trong project của bạn
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mt-4">Danh Sách Khách Hàng</h2>
+<hr />
+
+@* Xóa bỏ liên kết "Thêm mới" (Create New) *@
+@* <p>
+        @Html.ActionLink("Thêm mới", "Create")
+    </p> *@
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            @* Hiển thị các tiêu đề cột cho thuộc tính của Customer *@
+            <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+            <th>@Html.DisplayNameFor(model => model.CustomerPhone)</th>
+            <th>@Html.DisplayNameFor(model => model.CustomerEmail)</th>
+            <th>@Html.DisplayNameFor(model => model.CustomerAddress)</th>
+
+           
+            <th>Tài khoản</th>
+
+            <th></th> 
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+               
+                <td>@Html.DisplayFor(modelItem => item.CustomerName)</td>
+                <td>@Html.DisplayFor(modelItem => item.CustomerPhone)</td>
+                <td>@Html.DisplayFor(modelItem => item.CustomerEmail)</td>
+                <td>@Html.DisplayFor(modelItem => item.CustomerAddress)</td>
+
+                
+                <td>@Html.DisplayFor(modelItem => item.User.Username)</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

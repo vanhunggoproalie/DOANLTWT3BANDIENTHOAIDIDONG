@@ -1,0 +1,56 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.Order
+@{
+    ViewBag.Title = "Chi tiết Đơn Hàng #" + Model.OrderID;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Chi Tiết Đơn Hàng <span class="text-info">#@Model.OrderID</span></h2>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Thông tin Khách Hàng</h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Tên Khách Hàng:</dt>
+            <dd>@Html.DisplayFor(model => model.Customer.CustomerName)</dd>
+
+            <dt>Điện Thoại:</dt>
+            <dd>@Html.DisplayFor(model => model.Customer.CustomerPhone)</dd>
+
+            <dt>Email:</dt>
+            <dd>@Html.DisplayFor(model => model.Customer.CustomerEmail)</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <h3>Thông tin Đơn Hàng</h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Ngày Đặt Hàng:</dt>
+            <dd>@Html.DisplayFor(model => model.OrderDate)</dd>
+
+            <dt>Địa Chỉ Giao:</dt>
+            <dd>@Html.DisplayFor(model => model.ShippingAddress)</dd>
+
+            <dt>Phương Thức TT:</dt>
+            <dd>@Html.DisplayFor(model => model.PaymentMethod)</dd>
+
+            <dt>Trạng Thái TT:</dt>
+            <dd>@Html.DisplayFor(model => model.PaymentStatus)</dd>
+        </dl>
+    </div>
+</div>
+
+<h3 class="mt-4">Chi Tiết Sản Phẩm</h3>
+<hr />
+@* Yêu cầu dùng Partial View cho OrderDetail *@
+@Html.Partial("_OrderDetailsPartial", Model.OrderDetails)
+
+<h3 class="mt-4">Tổng Cộng</h3>
+<hr />
+<div class="text-right">
+    <h4 class="text-danger">Tổng Thành Tiền: @(Model.TotalAmount.ToString("#,##0", new System.Globalization.CultureInfo("vi-VN"))) ₫</h4>
+</div>
+
+<p class="mt-4">
+    @* Có thể thêm nút Sửa/Xóa đơn hàng tại đây nếu Admin được phép *@
+    @Html.ActionLink(" Quay lại Danh sách", "Index", null, new { @class = "btn btn-secondary" })
+</p>

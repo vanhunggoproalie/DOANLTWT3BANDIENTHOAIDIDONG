@@ -1,0 +1,161 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.HomeProductVM
+@using PagedList.Mvc
+
+<style>
+    /* CSS cho danh sách sản phẩm giống ảnh mẫu */
+
+    /* Khung trắng bao bọc cả khu vực */
+    .listProduct {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        margin-top: 30px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+        /* Tiêu đề "San Pham Moi" */
+        .listProduct h2 {
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #000;
+            font-weight: 600;
+        }
+
+    /* Danh sách (ul) */
+    .list-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px; /* Khoảng cách giữa các sản phẩm */
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Mỗi thẻ sản phẩm (li) */
+    .product-item {
+        background: #fafafa; /* Màu nền xám nhạt cho thẻ */
+        border-radius: 10px;
+        text-align: center;
+        width: calc(20% - 12px); /* CHIA 5 CỘT (trừ đi khoảng cách gap) */
+        padding: 12px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-sizing: border-box;
+    }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        }
+
+    /* Link bọc toàn bộ thẻ */
+    .product-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+
+    /* Ảnh sản phẩm */
+    .product-item img {
+        width: 100%;
+        height: 140px;
+        object-fit: contain;
+        margin-bottom: 8px;
+    }
+
+    /* Giá cũ (Màu xám, gạch ngang) */
+    .old-price {
+        text-decoration: line-through;
+        color: #777;
+        font-size: 13px;
+        margin: 0;
+        height: 16px; /* Giữ chiều cao cố định */
+    }
+
+    /* Giá mới (màu đỏ - class .prodPrice của bạn) */
+    .prodPrice {
+        color: #e4002b;
+        font-weight: bold;
+        font-size: 15px;
+        margin: 5px 0;
+    }
+
+    /* Giảm giá (màu xanh lá) */
+    .discount {
+        color: #00a651;
+        font-size: 13px;
+        height: 16px; /* Giữ chiều cao cố định */
+        margin: 0 0 5px 0;
+    }
+
+    /* Tên sản phẩm (class .prodName của bạn) */
+    .prodName {
+        margin-top: 8px;
+        font-size: 13.5px;
+        color: #000;
+        font-weight: 500;
+        /* Giúp các thẻ cao bằng nhau */
+        height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+        -webkit-box-orient: vertical;
+    }
+
+    /* Ẩn "Đã Bán" để giống ảnh mẫu */
+    .prodSale {
+        display: none;
+    }
+
+    /* Căn giữa PagedListPager */
+    .pagination-container {
+        margin-top: 30px;
+        text-align: center;
+    }
+</style>
+@if (Model.NewProducts != null && Model.NewProducts.Any())
+{
+    <section class="container-fluid listProduct">
+        <h2>Sản Phẩm Mới</h2>
+        <ul class="list-container">
+            @foreach (var product in Model.NewProducts)
+            {
+                <li class="product-item">
+                    <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })" class="product-link">
+
+                        <img src="@Url.Content("~/Content/Images/" + product.ProductImage)" alt="@product.ProductName" />
+
+                        @{
+                            decimal oldPrice = product.ProductPrice * 1.20m;
+                            decimal discountAmount = oldPrice - product.ProductPrice;
+                        }
+
+                        <p class="old-price">@oldPrice.ToString("N0")₫</p>
+
+                        <p class="prodPrice"> @product.ProductPrice.ToString("N0")₫ </p>
+
+                        <p class="discount">Giảm @discountAmount.ToString("N0")₫</p>
+
+                        <p class="prodName"> @Html.DisplayFor(modelItem => product.ProductName) </p>
+
+                        <p class="prodSale">Đã Bán:&nbsp; @Html.DisplayFor(modelItem => product.OrderDetails.Count) </p>
+                    </a>
+                </li>
+            }
+        </ul>
+    </section>
+
+    <div class="pagination-container">
+        @Html.PagedListPager(Model.NewProducts, page => Url.Action("Index", new
+        {
+            page,
+            searchTerm = Model.SearchTerm
+        }))
+    </div>
+
+}
+else
+{
+    <p> Không tìm thấy sản phẩm nào phù hợp</p>
+}

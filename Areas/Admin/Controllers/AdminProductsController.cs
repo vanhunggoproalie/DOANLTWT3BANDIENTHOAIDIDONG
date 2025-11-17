@@ -1,0 +1,206 @@
+﻿using DOANLTWT3BANDIENTHOAIDIDONG.Models;
+using DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels;
+using PagedList;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+
+
+namespace DOANLTWT3BANDIENTHOAIDIDONG.Areas.Admin.Controllers
+{
+    public class AdminProductsController : Controller
+    {
+        private QLBANDIENTHOAIDIDONGEntities db = new QLBANDIENTHOAIDIDONGEntities();
+
+        // GET: Admin/AdminProducts
+        //public ActionResult Index()
+        //{
+        //    var products = db.Products.Include(p => p.CAtegory);
+        //    return View(products.ToList());
+        //}
+        public ActionResult Index(string searchTerm,decimal? minPrice,decimal? maxPrice, string sortOrder, int? page)
+        {
+            var model = new ProductSearchVM();
+            var products = db.Products.AsQueryable();
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                model.SearchTerm = searchTerm;
+                products = products.Where(p =>
+                p.ProductName.Contains(searchTerm) ||
+                p.ProductDecription.Contains(searchTerm) ||
+                p.CAtegory.CategoryName.Contains(searchTerm));
+
+            }
+            if (minPrice.HasValue)
+            {
+                products = products.Where(p => p.ProductPrice >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                products = products.Where(p => p.ProductPrice <= maxPrice.Value);
+            }
+            switch (sortOrder)
+            {
+                case "name_asc": products=products.OrderBy(p=>p.ProductName); break;
+                case "name_desc": products =products.OrderByDescending(p=>p.ProductName); break;
+                case "price_asc":products = products.OrderBy(p => p.ProductPrice); break;
+                case "price_desc":products =products.OrderByDescending(p => p.ProductPrice); break;
+                default:
+                    products = products.OrderBy(p=>p.ProductName); break;
+            }
+            model.SortOrder = sortOrder;
+
+            int pageNumber = page ?? 1;
+            int pageSize = 2;
+
+            model.Products = products.ToPagedList(pageNumber, pageSize);
+            return View(model);
+        }
+
+        // GET: Admin/AdminProducts/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        // GET: Admin/AdminProducts/Create
+        public ActionResult Create()
+        {
+      
+            ViewBag.CategoryID = new SelectList(db.CAtegories, "CategoryID", "CategoryName"/*, product.CategoryID*/);
+            return View();
+        }
+
+        // POST: Admin/AdminProducts/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductDecription,ProductPrice,ProductImage,UpLoadImg")] Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                if(product.UpLoadImg !=null){
+                    string filename= Path.GetFileName(product.UpLoadImg.FileName);
+                    string savePath = "~/Content/images/";
+                    product.ProductImage= savePath+filename;
+                    product.UpLoadImg.SaveAs(Path.Combine(Server.MapPath(savePath),filename));
+                }
+                db.Products.Add(product);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var eve in ex.EntityValidationErrors)
+                    {
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            ModelState.AddModelError(ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    ViewBag.CategoryID = new SelectList(db.CAtegories, "CategoryID", "CategoryName", product.CategoryID);
+                    return View(product);
+                }
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CategoryID = new SelectList(db.CAtegories, "CategoryID", "CategoryName", product.CategoryID);
+            return View(product);
+        }
+
+        // GET: Admin/AdminProducts/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.CategoryID = new SelectList(db.CAtegories, "CategoryID", "CategoryName", product.CategoryID);
+            return View(product);
+        }
+
+        // POST: Admin/AdminProducts/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ProductID,CategoryID,ProductName,ProductDecription,ProductPrice,ProductImage,UpLoadImg")] Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                if (product.UpLoadImg != null)
+                {
+                    string filename = Path.GetFileName(product.UpLoadImg.FileName);
+                    string savePath = "~/Content/images/";
+                    product.ProductImage = savePath + filename;
+                    product.UpLoadImg.SaveAs(Path.Combine(Server.MapPath(savePath), filename));
+                }
+                db.Entry(product).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CategoryID = new SelectList(db.CAtegories, "CategoryID", "CategoryName", product.CategoryID);
+            return View(product);
+        }
+
+        // GET: Admin/AdminProducts/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        // POST: Admin/AdminProducts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Product product = db.Products.Find(id);
+            db.Products.Remove(product);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

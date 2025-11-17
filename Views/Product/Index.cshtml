@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,Arial,sans-serif;line-height:1.5;background:#f6f7fb;color:#222}
+
+
+    .header-actions{display:flex;gap:12px;align-items:center}
+    .action{display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 10px;border-radius:6px}
+    .action:hover{background:#f1f5ff}
+
+    main{max-width:1000px;margin:30px auto;padding:0 16px;display:flex;flex-wrap:wrap;gap:30px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:20px}
+
+    .product-img{flex:1 1 40%;display:flex;justify-content:center;align-items:center}
+    .product-img img{width:100%;max-width:400px;border-radius:12px;object-fit:cover}
+
+    .product-info{flex:1 1 55%}
+    .product-info h2{color:black;margin-bottom:12px;font-size:24px}
+    .price{color:red;font-size:22px;font-weight:700;margin-bottom:12px}
+    .old-price{text-decoration:line-through;color:#888;margin-left:10px;font-weight:400;font-size:16px}
+
+    .desc{margin:16px 0;color:#444}
+
+    .btns{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+    button{padding:12px 20px;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+    .btn-add{background:red ;color:white}
+    .btn-buy{background:black;color:white}
+
+    section.specs{margin-top:30px;padding:20px;background:#f9fafc;border-radius:12px}
+    section.specs h3{margin-bottom:10px;color:#333}
+    ul{list-style:none;}
+    li{margin:6px 0;border-bottom:1px solid #eee;padding-bottom:6px}
+
+
+    @*@media(max-width:700px){
+      main{flex-direction:column;align-items:center}
+      .product-info{flex:1 1 100%}
+    }*@
+    </style>
+</head>
+<body>
+    <main>
+        <div class="product-img">
+            <img src="https://cdn2.fptshop.com.vn/unsafe/750x0/filters:format(webp):quality(75)/2023_9_16_638304612779650501_iphone-15-pro-xanh-1.jpg" alt="iPhone 15 Pro">
+        </div>
+        <div class="product-info">
+            <h2>iPhone 15 Pro 128GB</h2>
+            <div class="price">28.990.000 ₫ <span class="old-price">31.990.000 ₫</span></div>
+            <p class="desc">iPhone 15 Pro mang lại hiệu năng vượt trội với chip A17 Pro mới nhất, khung titan bền bỉ, camera tele 5x và cổng USB-C tiện lợi. Thiết kế sang trọng, hiệu suất mạnh mẽ và hệ sinh thái Apple đỉnh cao.</p>
+            <div class="btns">
+                <button class="btn-add" id="btnAdd">Thêm vào giỏ hàng</button>
+                <button class="btn-buy" id="btnBuy">Mua ngay</button>
+            </div>
+            <section class="specs">
+                <h3>Thông số kỹ thuật</h3>
+                <ul>
+                    <li>Màn hình: OLED, 6.1 inch, Super Retina XDR</li>
+                    <li>Chip: Apple A17 Pro 6 nhân</li>
+                    <li>RAM: 8GB</li>
+                    <li>Dung lượng: 128GB</li>
+                    <li>Camera sau: 48MP + 12MP + 12MP</li>
+                    <li>Camera trước: 12MP</li>
+                    <li>Pin: 3274 mAh, sạc nhanh 20W</li>
+                    <li>Hệ điều hành: iOS 17</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+    @*<main id="main-content">
+            @RenderBody()
+        </main>*@
+    <script>
+    document.getElementById('btnAdd').onclick = () => alert('Sản phẩm đã được thêm vào giỏ hàng.');
+        document.getElementById('btnBuy').onclick = () => alert('Chuyển đến trang thanh toán.');</script>
+</body>
+</html>
+

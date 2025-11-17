@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Chi tiết đơn hàng — FPT Shop </title>
+    <style>
+    :root{--bg:#f6f7fb;--card:#fff;--muted:#6b7280;--accent:#ff5a1f;--success:#10b981;--border: #e6e7ee}
+    *{box-sizing:border-box}
+    body{font-family:Inter, Roboto, Arial, Helvetica, sans-serif;background:var(--bg);margin:0;color:#111}
+    .container{max-width:1000px;margin:28px auto;padding:18px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:18px;box-shadow:0 4px 18px rgba(15,15,15,0.03)}
+    h1{font-size:20px;margin:0 0 8px}
+    .row{display:flex;gap:18px}
+    .col{flex:1}
+    .col-40{flex:0 0 40%}
+    .col-60{flex:0 0 60%}
+    .muted{color:var(--muted);font-size:13px}
+
+    
+    .order-meta{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .order-id{font-weight:600}
+    .small-btn{background:#fff;border:1px solid var(--border);padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer}
+
+  
+    .progress{display:flex;gap:8px;align-items:center;margin-top:12px}
+    .step{flex:1;position:relative;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fafafa,#fff);border:1px solid var(--border);font-size:13px;text-align:center}
+    .step.done{background:linear-gradient(180deg,#dff7ea,#ecfff6);border-color:var(--success)}
+    .step.active{background:linear-gradient(180deg,#fff4ea,#fff);border-color:var(--accent)}
+
+    .product{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #f1f2f6}
+    .product img{width:84px;height:84px;object-fit:cover;border-radius:8px}
+    .p-title{font-weight:600}
+    .p-attrs{font-size:13px;color:var(--muted)}
+    .p-right{margin-left:auto;text-align:right}
+
+
+    .summary-row{display:flex;justify-content:space-between;padding:8px 0}
+    .total{font-weight:700;font-size:18px}
+
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .label{font-size:13px;color:var(--muted);margin-bottom:6px}
+
+    .actions{display:flex;gap:8px}
+    .btn-primary{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
+    .btn-ghost{background:#fff;border:1px solid var(--border);padding:10px 14px;border-radius:8px;cursor:pointer}
+
+    /* Responsive */
+    @*@media (max-width:800px){.row{flex-direction:column}.col-40,.col-60{flex:1}}*@
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="order-meta">
+                <div>
+                    <div class="order-id">Mã đơn: <span style="color:var(--accent)">FPT12345678</span></div>
+                    <div class="muted">Ngày đặt: 28/10/2025 • Thanh toán: Thanh toán khi nhận hàng (COD)</div>
+                </div>
+                <div class="actions">
+                    <button class="small-btn" onclick="copyOrder()">Sao chép mã</button>
+                    <button class="small-btn" onclick="printInvoice()">In hóa đơn</button>
+                    <button class="small-btn" onclick="reorder()">Mua lại</button>
+                </div>
+            </div>
+
+            <div class="progress" style="margin-top:14px">
+                <div class="step done">Đã nhận đơn</div>
+                <div class="step done">Đang xử lý</div>
+                <div class="step active">Đang giao</div>
+                <div class="step">Hoàn thành</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-60">
+                <div class="card">
+                    <h1>Chi tiết sản phẩm</h1>
+
+            
+                    <div class="product">
+                        <img src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTgF_kChFO_bZk1bCWOMw-g6EoMeuMeeN_xcFEwMHibctrzGK392vz5JWJRY0QU1lPpr9p68Y_PxIWEfpxwHeANDisUwAvK6NfamUvQBPvDP7L60NrAZwLuguE27gAUnZYBsFOJGw&usqp=CAc" alt="product">
+                        <div>
+                            <div class="p-title">Xiaomi Redmi Note 12 Pro</div>
+                            <div class="p-attrs">64GB • Bạc • Bảo hành 12 tháng</div>
+                            <div class="muted" style="margin-top:6px">Số lượng: 1</div>
+                        </div>
+                        <div class="p-right">
+                            <div style="font-weight:700">₫7.990.000</div>
+                            <div class="muted">Đã giảm 5%</div>
+                        </div>
+                    </div>
+
+                 
+                    <div class="product">
+                        <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/soundcore_liberty_4_pro_black_1_4a4cef6347.png" alt="product">
+                        <div>
+                            <div class="p-title">Tai nghe không dây ABC TrueSound</div>
+                            <div class="p-attrs">Màu: Đen</div>
+                            <div class="muted" style="margin-top:6px">Số lượng: 1</div>
+                        </div>
+                        <div class="p-right">
+                            <div style="font-weight:700">₫699.000</div>
+                            <div class="muted">Khuyến mãi</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:10px;text-align:right">
+                        <button class="btn-ghost" onclick="showItemDetails()">Hiện/Giấu chi tiết</button>
+                    </div>
+
+                    <div id="itemDetails" style="display:none;margin-top:12px;border-top:1px dashed #eee;padding-top:10px">
+                        <div class="muted">Ghi chú người bán: Sản phẩm kiểm tra trước khi giao, quý khách vui lòng kiểm tra kỹ trước khi nhận hàng.</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h1>Thông tin giao hàng</h1>
+                    <div class="grid">
+                        <div>
+                            <div class="label">Người nhận</div>
+                            <div>Nguyễn Văn A Bảy</div>
+                        </div>
+                        <div>
+                            <div class="label">Số điện thoại</div>
+                            <div>0988 554 311</div>
+                        </div>
+                        <div style="grid-column:1/3">
+                            <div class="label">Địa chỉ</div>
+                            <div>126 Đường Quang Trung, Phường 1, Quận 1, TP. Hồ Chí Minh</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h1>Theo dõi vận chuyển</h1>
+                    <div class="muted">Đơn vị vận chuyển: Giao Hàng Nhanh</div>
+                    <div style="margin-top:8px">
+                        <div class="muted">Mã vận chuyển:</div>
+                        <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+                            <div style="font-weight:600">GHN123456789</div>
+                            <button class="small-btn" onclick="copyTracking()">Sao chép</button>
+                            <a class="small-btn" href="#" onclick="alert('Theo Dõi Đơn Hàng ')">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col col-40">
+                <div class="card">
+                    <h1>Tóm tắt đơn hàng</h1>
+                    <div class="summary-row"><div>Tạm tính</div><div>₫8.689.000</div></div>
+                    <div class="summary-row"><div>Giảm giá</div><div>-₫500.000</div></div>
+                    <div class="summary-row"><div>Phí vận chuyển</div><div>₫30.000</div></div>
+                    <hr style="border:none;border-top:1px solid #f1f2f6;margin:8px 0">
+                    <div class="summary-row total"><div>Tổng cộng</div><div>₫8.219.000</div></div>
+
+                    <div style="margin-top:12px" class="muted">Phương thức thanh toán: <strong>Thanh toán khi nhận hàng (COD)</strong></div>
+
+                    <div style="margin-top:14px;display:flex;gap:8px">
+                        <button class="btn-primary" onclick="confirmReceived()">Xác nhận đã nhận hàng</button>
+                        <button class="btn-ghost" onclick="reportIssue()">Báo vấn đề</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h1>Hóa đơn & Tải về</h1>
+                    <div class="muted">Hóa đơn VAT sẽ được gửi sau khi đơn hoàn thành.</div>
+                    <div style="margin-top:10px;display:flex;gap:8px">
+                        <button class="btn-ghost" onclick="downloadInvoice()">Tải hóa đơn (PDF)</button>
+                        <button class="btn-ghost" onclick="sendInvoice()">Gửi vào Email</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h1>Trạng thái đơn</h1>
+                    <div class="muted">Tiền tố:</div>
+                    <div style="margin-top:8px;font-weight:700;color:var(--accent)">ĐANG GIAO</div>
+                    <div class="muted" style="margin-top:8px">Dự kiến giao: 30/10/2025</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:8px;color:var(--muted);font-size:13px">Đây là bản clone đơn giản theo giao diện FPT Shop — không bao gồm header/footer.</div>
+
+    </div>
+
+    <script>
+    function copyOrder(){
+      navigator.clipboard?.writeText('FPT12345678')
+        .then(()=> alert('Đã sao chép mã đơn FPT12345678'))
+        .catch(()=> alert('Trình duyệt không hỗ trợ sao chép'))
+    }
+    function copyTracking(){
+      navigator.clipboard?.writeText('GHN123456789')
+        .then(()=> alert('Đã sao chép mã vận chuyển'))
+        .catch(()=> alert('Trình duyệt không hỗ trợ sao chép'))
+    }
+    function showItemDetails(){
+      const el = document.getElementById('itemDetails')
+      el.style.display = (el.style.display==='none')? 'block':'none'
+    }
+    function printInvoice(){
+      window.print()
+    }
+    function downloadInvoice(){
+      alert('Tải về file PDF')
+    }
+    function sendInvoice(){
+      alert('Gửi hóa đơn qua email.')
+    }
+    function confirmReceived(){
+      if(confirm('Bạn có chắc đã nhận hàng?')){alert('Cảm ơn! Trạng thái sẽ được cập nhật.')} }
+    function reportIssue(){
+      alert(' Báo cáo vấn đề .')
+    }
+    function reorder(){
+      alert('Thêm sản phẩm vào giỏ hàng để mua lại .')
+    }
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,60 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.User
+
+@{
+    ViewBag.Title = "Chỉnh Sửa Tài Khoản Quản Trị";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mt-4">Chỉnh Sửa Tài Khoản Quản Trị</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4 class="text-info">Thay đổi Mật khẩu hoặc Thông tin</h4>
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @* ẨN TRƯỜNG USERNAME VÀ USERROLE để gửi về POST Action *@
+        @Html.HiddenFor(model => model.Username)
+        @Html.HiddenFor(model => model.UserRole)
+
+        @* Hiển thị Username (Chỉ đọc) *@
+        <div class="form-group row mb-3">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-3 font-weight-bold" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+        </div>
+
+        @* Trường Mật khẩu (Cho phép sửa) *@
+        <div class="form-group row mb-3">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-3 font-weight-bold" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Hiển thị Vai trò (Chỉ đọc) *@
+        <div class="form-group row mb-3">
+            @Html.LabelFor(model => model.UserRole, htmlAttributes: new { @class = "control-label col-md-3 font-weight-bold" })
+            <div class="col-md-9">
+                <p class="form-control-static">
+                    <span class="badge badge-success p-2">@Html.DisplayFor(model => model.UserRole)</span>
+                    <small class="text-muted">(Vai trò không thể thay đổi)</small>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group row mt-4">
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="Lưu Thay Đổi" class="btn btn-success" />
+                @Html.ActionLink("Trở về Danh Sách", "Index", null, new { @class = "btn btn-default ml-2" })
+            </div>
+        </div>
+    </div>
+}

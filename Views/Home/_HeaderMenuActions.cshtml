@@ -1,0 +1,39 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.PersonalMenuVM
+
+<div class="header-actions">
+    <div class="action" id="hotline">
+        <span class="icon">📞</span>
+        <div>Hotline: 1800 6601</div>
+    </div>
+
+    @if (Model.IsLoggedIn)
+    {
+        <div class="action" id="account" style="position: relative; padding-right: 25px;">
+            <span class="icon">👤</span>
+            <div style="font-weight: bold;">@Model.Username</div>
+            <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 10px; opacity: 0.8;">▼</span>
+
+            <div class="dropdown-menu">
+                <a href="@Url.Action("Profile", "Customer")" class="dropdown-item"><i class='bx bxs-user-detail'></i> Hồ sơ khách hàng</a>
+                <a href="@Url.Action("OrderHistory", "Customer")" class="dropdown-item"><i class='bx bxs-truck'></i> Lịch sử giao dịch</a>
+                <a href="@Url.Action("Logout", "Account")" class="dropdown-item"><i class='bx bx-log-out'></i> Đăng xuất</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <a href="@Url.Action("Login","Account")" class="action-link">
+            <div class="action" id="account">
+                <span class="icon">👤</span>
+                <div>Đăng nhập</div>
+            </div>
+        </a>
+    }
+
+    <a href="@Url.Action("Index", "Cart")" class="action-link">
+        <div class="action" id="cart">
+            <span class="icon">🛒</span>
+            <div>Giỏ hàng (<span id="cartCount">@Model.CartCount</span>)</div>
+        </div>
+    </a>
+</div>

@@ -1,0 +1,85 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.ProductDetailsVM
+@using PagedList.Mvc
+
+<style>
+    /* === CONTAINER VÀ TIÊU ĐỀ SẢN PHẨM TƯƠNG TỰ === */
+    .featureProd {
+        background: #fff;
+        padding: 24px;
+        margin-top: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+        .featureProd h4 {
+            font-weight: 700 !important; /* Đảm bảo override style inline */
+            font-size: 22px;
+            color: #28a745; /* Màu xanh lá nổi bật */
+            border-left: 5px solid #28a745;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+
+    /* === DANH SÁCH SẢN PHẨM CUỘN NGANG === */
+    .feature-container {
+        display: flex;
+        flex-wrap: nowrap; /* Buộc cuộn ngang */
+        gap: 15px;
+        overflow-x: auto;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        padding-bottom: 10px;
+    }
+        /* Ẩn thanh cuộn mặc định */
+        .feature-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .feature-container::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+    /* === ITEM SẢN PHẨM TƯƠNG TỰ === */
+    .fproduct-item {
+        flex: 0 0 150px; /* Kích thước cố định nhỏ hơn */
+        max-width: 150px;
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        overflow: hidden;
+    }
+
+        .fproduct-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-color: #28a745;
+        }
+
+        .fproduct-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            padding: 5px;
+        }
+</style>
+@if (Model.RelatedProducts !=null && Model.RelatedProducts.Any())
+{
+                <section class="container-fluid featureProd">
+                    <h4 style="font-weight:bold"> San Pham Tuong Tu</h4>
+                    <ul class="feature-container">
+                        @foreach (var product in Model.RelatedProducts)
+                {
+                    <li class="fproduct-item">
+                        <div>
+                            <a href="@Url.Action("ProductDetails","Home",new { id = product.ProductID })">
+                                <img src="@Html.DisplayFor(modelItem=>product.ProductImage)" /> 
+                            </a>
+                        </div>
+                    </li>
+                }
+                    </ul>
+                </section>
+            }

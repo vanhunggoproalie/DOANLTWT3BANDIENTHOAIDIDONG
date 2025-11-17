@@ -1,0 +1,110 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.Product
+
+<head>
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .control-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 15px;
+            color: #333;
+            padding-top: 7px;
+        }
+
+        /* Canh đều 2 cột */
+        .col-md-2 {
+            max-width: 180px;
+        }
+
+        .col-md-10 {
+            flex: 1;
+        }
+
+        /* ===== INPUT ===== */
+        .form-control {
+            border-radius: 6px;
+            padding: 10px 12px;
+            border: 1px solid #bbb;
+            transition: 0.2s;
+            font-size: 15px;
+        }
+
+            .form-control:focus {
+                border-color: #4a8eff;
+                box-shadow: 0 0 6px rgba(77, 140, 255, 0.4);
+            }
+
+        /* ===== FILE UPLOAD ===== */
+        input[type="file"] {
+            margin-top: 5px;
+            font-size: 15px;
+        }
+
+        /* ===== ERROR ===== */
+        .text-danger {
+            font-size: 13px;
+            color: #e4002b;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* ===== BUTTON ===== */
+        .btn-primary {
+            padding: 10px 18px;
+            font-size: 15px;
+            border-radius: 6px;
+        }
+
+        /* ===== FORM TITLE ===== */
+        .form-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #2b2b2b;
+        }
+    </style>
+</head>
+<div class="form-group">
+    <div class="control-label col-md-2">Tên sản phẩm</div>
+    <div class="col-md-10">
+        @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="control-label col-md-2">Giá bán</div>
+    <div class="col-md-10">
+        @Html.TextBoxFor(model => model.ProductPrice, new { @class = "form-control", @type = "number", min = "0" })
+        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="control-label col-md-2"> Danh Mục</div>
+    <div class="col-md-10">
+        @*@Html.DropDownList("CategoryID",null,htmlAttributes : new {@class="form-control"})*@
+        @Html.DropDownListFor(model => model.CategoryID, (IEnumerable<SelectListItem>)ViewBag.CategoryID,
+    htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="control-label col-md-2">Mô tả sản phẩm</div>
+    <div class="col-md-10">
+        @Html.TextAreaFor(model => model.ProductDecription, new { @class = "form-control", @rows = 3 })
+        @Html.ValidationMessageFor(model => model.ProductDecription, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="control-label col-md-2">Hình Ảnh</div>
+    <div class="col-md-10">
+
+        <input type="file" name="UpLoadImg"  />
+        @Html.ValidationMessageFor(model => model.UpLoadImg, "", new { @class = "text-danger" })
+        @*@Html.ValidationMessageFor(model=> model.ProductImage,"",new {@class="text-danger"})*@ 
+    </div>
+</div>

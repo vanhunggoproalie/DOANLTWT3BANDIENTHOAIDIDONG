@@ -1,0 +1,157 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.ProductSearchVM
+@using PagedList.Mvc;
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        /* Khung tổng thể */
+        .table {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+            /* Header */
+            .table thead th {
+                background: #2ecc71 !important;
+                color: white;
+                text-align: center;
+                font-size: 16px;
+                padding: 14px;
+            }
+
+            /* Dòng dữ liệu */
+            .table tbody tr {
+                transition: 0.25s;
+            }
+
+                .table tbody tr:hover {
+                    background: #f2fff6;
+                }
+
+            /* Cột nội dung */
+            .table td {
+                vertical-align: middle !important;
+                padding: 14px;
+                font-size: 15px;
+            }
+
+            /* Ảnh sản phẩm */
+            .table img {
+                height: 120px;
+                width: 120px;
+                object-fit: cover;
+                border-radius: 8px;
+                border: 1px solid #ddd;
+            }
+
+            /* Các nút */
+            .table .btn {
+                margin-right: 6px;
+                padding: 6px 12px;
+                border-radius: 6px;
+            }
+
+        .btn-primary {
+            background: #3498db !important;
+            border: none !important;
+        }
+
+            .btn-primary:hover {
+                background: #217dbb !important;
+            }
+
+        /* Tiêu đề */
+        h2 {
+            background: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Nút Thêm Mới */
+        .form-group .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+
+        /* Phân trang */
+        .pagination-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination li a {
+            padding: 8px 14px;
+            border-radius: 6px;
+            margin: 0 4px;
+        }
+
+        .pagination li.active a {
+            background: #2ecc71 !important;
+            border-color: #27ae60 !important;
+        }
+
+    </style>
+</head>
+@if (Model.Products != null && Model.Products.Any())
+{
+    <h2 class="bg-success">Danh Sách Sản Phẩm</h2>
+    <table class="table bg-info container-fluid">
+        <thead>
+            <tr>
+                <th class=" bg-success col-md-2"> Hình ảnh</th>
+                <th class=" bg-success col-md-3"> Tên Sản Phẩm</th>
+                <th class=" bg-success col-md-1"> Đơn Giá</th>
+                <th class=" bg-success col-md-2"> Danh Mục</th>
+                <th class=" bg-success col-md-4"> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>
+                        <img src="@Html.DisplayFor(modelItem => item.ProductImage)" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)"
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductPrice)"
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CAtegory.CategoryName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
+                        @Html.ActionLink("Chi Tiết", "Details", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
+                        @Html.ActionLink("Xóa", "Delete", new { id = item.ProductID }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pagination-container">
+        @Html.PagedListPager(Model.Products,page => Url.Action("Index",new
+   {
+       page,
+       searchTerm = Model.SearchTerm,
+       minPrice = Model.MinPrice,
+       maxPrice = Model.MaxPrice,
+       sortOrder = Model.SortOrder
+   }))
+       )
+    </div>
+}
+else
+{
+    <p>Không Tìm Thấy Sản Phẩm Phù Hợp</p>
+}
+<div class="form-group">
+    <div class="col-md-offset-8 col-md-4">
+        @Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })
+    </div>
+</div>

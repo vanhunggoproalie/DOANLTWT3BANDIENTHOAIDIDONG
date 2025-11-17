@@ -1,0 +1,40 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.Order
+@{
+    ViewBag.Title = "OrderSucess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>OrderSucess</h2>
+<h3>Thong Tin Don Hang</h3>
+<div>
+    <p><strong>Ma Don Hang:</strong>@Model.OrderID</p>
+    <p><strong>Ngay Dat Hang:</strong>@Model.OrderDate</p>
+    <p><strong>Tong So Tien:</strong>@Model.TotalAmount</p>
+    <p><strong>Trang Thai Thanh Toan:</strong>@Model.PaymentStatus</p>
+    <p><strong>Phuong Thuc Thanh Toan:</strong>@Model.PaymentMethod</p>
+    <p><strong>Phuong Thuc Giao Hang:</strong>@Model.ShippingMethod</p>
+    <p><strong>Dia Chi Giao Hang:</strong>@Model.ShippingAddress</p>
+</div>
+<h3>Chi Tiet Don Hang</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th> San Pham</th>
+            <th> So Luong</th>
+            <th> Don Gia</th>
+            <th>Tong Gia</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.UnitPrice</td>
+                    <td>@item.TotalPrice</td>
+                </tr>
+            }
+    </tbody>
+</table>

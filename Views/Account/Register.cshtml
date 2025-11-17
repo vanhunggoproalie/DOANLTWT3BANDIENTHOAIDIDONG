@@ -1,0 +1,286 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.RegisterVM
+
+@{
+    ViewBag.Title = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+}
+
+@*<style>
+        .register-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 0;
+            background: #f6f7fb;
+            font-family: Inter, system-ui, Arial, sans-serif;
+        }
+
+        .register-container {
+            background: #fff;
+            padding: 40px 45px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .register-title {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 22px;
+            color: #222;
+            font-weight: 600;
+        }
+
+        .register-form .register-group {
+            margin-bottom: 18px;
+        }
+
+        .register-form label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .register-form input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+            .register-form input:focus {
+                border-color: #e60012;
+                outline: none;
+            }
+
+        .register-terms {
+            margin: 10px 0 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+            .register-terms a {
+                color: #e60012;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                .register-terms a:hover {
+                    text-decoration: underline;
+                }
+
+        .register-btn {
+            width: 100%;
+            background: #e60012;
+            color: white;
+            border: none;
+            padding: 12px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .register-btn:hover {
+                background: #b8000f;
+            }
+
+        .register-login {
+            text-align: center;
+            margin-top: 16px;
+            color: #444;
+            font-size: 14px;
+        }
+
+            .register-login a {
+                color: #e60012;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                .register-login a:hover {
+                    text-decoration: underline;
+                }
+    </style>*@
+
+<style>
+    body {
+        background: #f5f6fa;
+        font-family: Inter, Arial, sans-serif;
+    }
+
+    .register-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 90vh;
+        padding: 20px;
+    }
+
+    .register-container {
+        background: #fff;
+        padding: 40px 35px;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 450px;
+        animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px);}
+        to { opacity: 1; transform: translateY(0);}
+    }
+
+    .register-title {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 26px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .register-group {
+        margin-bottom: 18px;
+    }
+
+    .register-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .register-group input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    .register-group input:focus {
+        border-color: #e60012;
+        box-shadow: 0 0 0 2px rgba(230,0,18,0.15);
+        outline: none;
+    }
+
+    .register-terms {
+        font-size: 14px;
+        margin: 15px 0 20px;
+        color: #555;
+    }
+
+    .register-terms a {
+        color: #e60012;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .register-terms a:hover {
+        text-decoration: underline;
+    }
+
+    .register-btn {
+        width: 100%;
+        background: #e60012;
+        color: #fff;
+        border: none;
+        padding: 14px 0;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .register-btn:hover {
+        background: #b8000f;
+    }
+
+    .register-login {
+        text-align: center;
+        margin-top: 18px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .register-login a {
+        color: #e60012;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .register-login a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="register-page">
+    <div class="register-container">
+        <h2 class="register-title">Đăng ký tài khoản</h2>
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="register-group">
+                @Html.LabelFor(m => m.Username)
+                @Html.TextBoxFor(m => m.Username, new { @placeholder = "Nhập tên đăng nhập", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+            </div>
+            <div class="register-group">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @placeholder = "Nhập mật khẩu", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="register-group">
+                @Html.LabelFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Nhập lại mật khẩu", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+            <div class="register-group">
+                @Html.LabelFor(m => m.CustomerName)
+                @Html.TextBoxFor(m => m.CustomerName, new { @placeholder = "Nhập họ và tên", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CustomerName, "", new { @class = "text-danger" })
+            </div>
+            <div class="register-group">
+                @Html.LabelFor(m => m.CustomerPhone)
+                @Html.TextBoxFor(m => m.CustomerPhone, new { @placeholder = "Nhập lại mật khẩu", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CustomerPhone, "", new { @class = "text-danger" })
+            </div>
+            <div class="register-group">
+                @Html.LabelFor(m => m.CustomerEmail)
+                @Html.TextBoxFor(m => m.CustomerEmail, new { @type = "email", @placeholder = "Nhập địa chỉ email", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CustomerEmail, "", new { @class = "text-danger" })
+            </div>
+            <div class="register-group">
+                @Html.LabelFor(m => m.CustomerAddress)
+                @Html.TextBoxFor(m => m.CustomerAddress, new { @placeholder = "Nhập Dia Chi ", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CustomerAddress, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="register-terms">    
+                <label>
+                    <input type="checkbox" required />
+                    Tôi đồng ý với <a href="#">điều khoản sử dụng</a> và <a href="#">chính sách bảo mật</a>.
+                </label>
+            </div>
+
+            <button type="submit" class="register-btn">Đăng ký</button>
+
+            <p class="register-login">
+                Đã có tài khoản? <a href="@Url.Action(" Login", "Account" )">Đăng nhập ngay</a>
+            </p>
+        }
+    </div>
+</div>
+

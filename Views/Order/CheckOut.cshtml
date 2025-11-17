@@ -1,0 +1,91 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.CheckoutVM
+@{
+    ViewBag.Title = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    function enableAdddressEdit() {
+        document.getElementById("shippingAddress").removeAttribute("readonly");
+        document.getElementById("newAddressGroup").style.display = "block";
+
+    }
+    function updateShippingAddress() {
+        var newAddress = document.getElementById("newShippingAddress").value;
+        if (newAddress) {
+            document.getElementById("shippingAddress").value = newAddress;
+        }
+    }
+</script>
+<h2>CheckOut</h2>
+@using (Html.BeginForm("CheckOut", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+    <h3>Thong Tin Don Hang</h3>
+    <div class="form-group">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">San Pham</th>
+                    <th> So Luong</th>
+                    <th> Don Gia</th>
+                    <th> Thanh Tien</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CartItems)
+                {
+                    <tr>
+                        <td><img src="@item.ProductImage" /></td>
+                        <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.UnitPrice</td>
+                        <td>@item.TotalPrice</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <h3> Thong Tin Giao Hang </h3>
+    <div class="form-group">
+        @Html.LabelFor(m=>m.ShippingAddress , new {@class="control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m=>m.ShippingAddress, new { @class = "form-control", @readonly = "readonly", @id = "shippingAddress" })
+            @Html.ValidationMessageFor(m=>m.ShippingAddress)
+            <button type="button" class="btn btn-link" onclick="enableAdddressEdit()">Chinh Sua</button>
+        </div>
+    </div>
+    <div class="form-group" id="newAddressGroup" style="display:none">
+        @Html.Label("Dia Chi Moi",new {@class="control-label col-md-2"})
+        <div class="col-md-10">
+            <input type="text" id="newShippingAddress" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Phuong Thuc Giao Hang",new {@class="control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.RadioButtonFor(m=>m.ShippingMethod,"Giao Hang Nhanh")Giao Hang Nhanh<br />
+            @Html.RadioButtonFor(m=>m.ShippingMethod,"Giao Hang Tiet Kiem")Giao Hang Tiet Kiem 
+            @Html.ValidationMessageFor(m=>m.ShippingMethod)
+                                                                                                 
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Phuong Thuc Thanh Toan", new {@class= "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.RadioButtonFor(m=>m.PaymentMethod,"Tien Mat") Tien Mat <br />
+            @Html.RadioButtonFor(m=>m.PaymentMethod,"Paypal") Paypal<br />
+            @Html.RadioButtonFor(m=>m.PaymentMethod,"Mua Truoc Tra Sau")Mua Truoc Tra Sau 
+            @Html.ValidationMessageFor(m => m.PaymentMethod)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m=>m.TotalAmount, new {@class= "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m=>m.TotalAmount , new {@class="form-control",@readonly="readonly"})
+            @Html.ValidationMessageFor(m => m.TotalAmount)
+        </div>
+    </div>
+}

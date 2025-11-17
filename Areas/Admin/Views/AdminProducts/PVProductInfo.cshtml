@@ -1,0 +1,30 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.Product
+<head>
+    <style>
+
+    </style>
+</head>
+<div class="container-fluid">
+    <div class="div-horizontal bg-info">
+        <div class="col-md-3">
+            <img src="@Html.DisplayFor(model=> model.ProductImage )"/>
+
+        </div>
+        <div class="col-md-9 bg-info">
+            <dl>
+                <dt>Tên Sản Phẩm</dt>
+                <dd> @Html.DisplayFor(model => model.ProductName)</dd>
+
+                <dt>Mô Tả</dt>
+                <dd> @Html.DisplayFor(model => model.ProductDecription)</dd>
+
+                <dt>Đơn Giá</dt>
+                <dd> @Html.DisplayFor(model => model.ProductPrice)</dd>
+
+                <dt>Danh Mục </dt>
+                <dd> @Html.DisplayFor(model => model.CAtegory.CategoryName)</dd>
+
+            </dl>
+        </div>
+    </div>
+</div>

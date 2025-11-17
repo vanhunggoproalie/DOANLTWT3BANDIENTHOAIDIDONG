@@ -1,0 +1,357 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.HomeProductVM
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ - Cửa hàng điện thoại</title>
+    <link rel="stylesheet" href="home.css">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-content {
+            width: 95%;
+            margin: 20px auto;
+        }
+
+        /* ----- CATEGORY SECTION ----- */
+        .category-section {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+            .category-section h2 {
+                margin-bottom: 15px;
+                font-size: 20px;
+            }
+
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+        }
+
+        .category-item {
+            text-align: center;
+            width: 90px;
+            transition: transform 0.2s ease;
+        }
+
+            .category-item img {
+                width: 70px;
+                height: 70px;
+                object-fit: contain;
+            }
+
+            .category-item p {
+                font-size: 14px;
+                margin-top: 5px;
+            }
+
+            .category-item:hover {
+                transform: translateY(-5px);
+            }
+
+        /* ----- PRODUCT SECTION ----- */
+        .product-section {
+            background: linear-gradient(90deg, #ff4e00, #ec9f05);
+            border-radius: 10px;
+            padding: 20px;
+            color: #fff;
+        }
+
+            .product-section h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+        .product-list {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .product-item {
+            background: #fff;
+            border-radius: 10px;
+            color: #000;
+            width: calc(20% - 10px);
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .product-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            }
+
+            .product-item img {
+                width: 100%;
+                height: 180px;
+                object-fit: contain;
+            }
+
+            .product-item .name {
+                font-weight: bold;
+                margin-top: 8px;
+            }
+
+            .product-item .price {
+                color: #e4002b;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .product-item .discount {
+                font-size: 13px;
+                color: #555;
+            }
+        .deal-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+            .deal-section h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+                color: #000;
+            }
+
+        .deal-list {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px; /* giảm khoảng cách để 5 item khớp 1 hàng */
+        }
+
+        .deal-item {
+            background: #fafafa;
+            border-radius: 10px;
+            text-align: center;
+            width: calc(18% - 5px); /* giảm 10% kích thước so với 20% ban đầu */
+            padding: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
+        }
+
+            .deal-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+            }
+
+            .deal-item img {
+                width: 100%;
+                height: 140px; 
+                object-fit: contain;
+                margin-bottom: 8px;
+            }
+
+            .deal-item .old-price {
+                text-decoration: line-through;
+                color: #777;
+                font-size: 13px;
+                margin: 0;
+            }
+
+            .deal-item .price {
+                color: #e4002b;
+                font-weight: bold;
+                font-size: 15px;
+                margin: 5px 0;
+            }
+
+            .deal-item .discount {
+                color: #00a651;
+                font-size: 13px;
+            }
+
+            .deal-item .name {
+                margin-top: 8px;
+                font-size: 13.5px;
+                color: #000;
+                font-weight: 500;
+            }
+        .action-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="main-content">
+
+        <!-- Danh mục nổi bật -->
+        <section class="category-section">
+            <h2>Danh mục nổi bật</h2>
+            <div class="category-list">
+                <div class="category-item">
+                    <a href="@Url.Action("Index","Category")" class="action-link">
+                        <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/dien_thoai_icon_cate_05347c5136.png" alt="Điện thoại">
+                        <p>Điện thoại</p>
+                    </a>
+                </div>
+                <div class="category-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/may_tinh_bang_ic_cate_dccb57ff5c.png" alt="Máy tính bảng">
+                    <p>Máy tính bảng</p>
+                </div>
+                <div class="category-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/laptop_ic_cate_47e7264bc7.png" alt="Laptop">
+                    <p>Laptop</p>
+                </div>
+                <div class="category-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/man_hinh_ic_cate_7663908793.png" alt="Màn hình">
+                    <p>Màn hình</p>
+                </div>
+                <div class="category-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/phu_kien_ic_cate_ecae8ddd38.png" alt="Phụ kiện">
+                    <p>Phụ kiện</p>
+                </div>
+                <div class="category-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/dong_ho_icon_cate_d8bc66c8e7.png" alt="Đồng hồ">
+                    <p>Đồng hồ</p>
+                </div>
+                <div class="category-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/tivo_ic_cate_5c09363832.png" alt="Tivi">
+                    <p>TiVi</p>
+                </div>
+                <div class="category-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/tu_lanh_ic_cate_da7eb46bd7.png" alt="Tủ lạnh">
+                    <p>Tủ lạnh</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sản phẩm nổi bật -->
+        <section class="product-section">
+            <h2>SẢN PHẨM NỔI BẬT , ĐẶC QUYỀN CHỈ CÓ TẠI FPT SHOP</h2>
+            <div class="product-list">
+                <div class="product-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/iphone_17_pro_cosmic_orange_1_12e8ea1358.png" alt="">
+                    <p class="name">iPhone 15 Pro Max 256GB</p>
+                    <p class="price">26.990.000₫</p>
+                    <p class="discount">Giảm 20%</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/samsung_galaxy_z_fold7_xam_1_de1fb8f431.png" alt="">
+                    <p class="name">
+                        Samsung Galaxy Z Fold7 5G 12GB 256GB
+                    </p>
+                    <p class="price">43.990.000₫</p>
+                    <p class="discount">Giảm 6%</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/iphone_16_pro_max_desert_titan_3552a28ae0.png" alt="">
+                    <p class="name">iPhone 16 Pro Max 256GB</p>
+                    <p class="price">30.290.000đ</p>
+                    <p class="discount">Giảm 12%</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/iphone_16_plus_white_1a1863c098.png" alt="">
+                    <p class="name">iPhone 16 Plus 128GB</p>
+                    <p class="price">24.790.000đ</p>
+                    <p class="discount">Giảm 10%</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/honor_400_pro_den_4_6263efd712.png" alt="">
+                    <p class="name">Honor 400 Pro 5G 12GB 512GB</p>
+                    <p class="price">16.990.000đ</p>
+                    <p class="discount">Giảm 9%</p>
+                </div>
+                <div class="product-item">
+                    <a href="@Url.Action("Index", "Product")" class="action-link">
+                        <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                    </a>
+                    <p class="name">iPhone 15 Pro 128GB</p>
+                    <p class="price">28.990.000 ₫</p>
+                    <p class="discount">Giảm 18%</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/tecno_pova_7_bac_5_3bd0afcf4a.png" alt="">
+                    <p class="name">Tecno Pova 7 8GB 128GB</p>
+                    <p class="price">4.090.000đ</p>
+                    <p class="discount">Giảm 23%</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/2024_1_15_638409395341919374_samsung-galaxy-s24-ultra-den-1.png" alt="">
+                    <p class="name">Samsung Galaxy S24 Ultra 5G 256GB</p>
+                    <p class="price">22.590.000đ</p>
+                    <p class="discount">Giảm 23%</p>
+                </div>
+            </div>
+        </section>
+        <section class="deal-section">
+            <h2>Top Deal bừng tỉnh trong đêm</h2>
+            <div class="deal-list">
+
+                <div class="deal-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/havit_h628bt_cream_3c99ac3d8a.png" alt="">
+                    <p class="old-price">540.000₫</p>
+                    <p class="price">319.000₫</p>
+                    <p class="discount">Giảm 221.000₫</p>
+                    <p class="name">Tai nghe Bluetooth chụp đầu có mic Havit H628BT</p>
+                </div>
+
+                <div class="deal-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/tai_nghe_bluetooth_true_wireless_anker_soundcore_k20i_den_3_c7041e1aed.jpg" alt="">
+                    <p class="old-price">520.000₫</p>
+                    <p class="price">290.000₫</p>
+                    <p class="discount">Giảm 230.000₫</p>
+                    <p class="name">Tai nghe Bluetooth True Wireless Anker Soundcore K20i</p>
+                </div>
+
+                <div class="deal-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/2023_5_5_638188739604648830_JBL-CHARGE5-XAM-2.jpg" alt="">
+                    <p class="old-price">3.917.000₫</p>
+                    <p class="price">3.490.000₫</p>
+                    <p class="discount">Giảm 427.000₫</p>
+                    <p class="name">Loa Bluetooth JBL Charge 5</p>
+                </div>
+
+                <div class="deal-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/360x0/filters:format(webp):quality(75)/2022_10_24_638022084424311528_aukey.jpg" alt="">
+                    <p class="old-price">776.000₫</p>
+                    <p class="price">399.000₫</p>
+                    <p class="discount">Giảm 377.000₫</p>
+                    <p class="name">Tai nghe Bluetooth nhét tai Aukey EP-M1s</p>
+                </div>
+
+                <div class="deal-item">
+                    <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/loa_bluetooth_marshall_emberton_iii_kem_1_6f3c2dc7e9.jpg" alt="">
+                    <p class="old-price">5.300.000₫</p>
+                    <p class="price">4.770.000₫</p>
+                    <p class="discount">Giảm 530.000₫</p>
+                    <p class="name">Loa Bluetooth Marshall Emberton III</p>
+                </div>
+
+            </div>
+        </section>
+        @Html.Partial("_PVFeatureProduct", Model)
+
+        @Html.Partial("_PVNewProduct",Model)
+
+    </main>
+
+</body>
+</html>

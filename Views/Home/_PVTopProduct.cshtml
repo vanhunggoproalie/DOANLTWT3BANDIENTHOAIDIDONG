@@ -1,0 +1,150 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.ProductDetailsVM
+@using PagedList.Mvc
+
+<style>
+    /* Container danh sách sản phẩm bán chạy */
+    <style >
+    /* === CONTAINER VÀ TIÊU ĐỀ SẢN PHẨM BÁN CHẠY === */
+    .listProducts {
+        background: #fff;
+        padding: 24px;
+        margin-top: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Đổ bóng rõ nét */
+    }
+
+    .listProducts h4 {
+        font-weight: 700 !important; /* Đảm bảo override style inline */
+        font-size: 22px;
+        color: #007bff; /* Màu xanh nổi bật */
+        border-left: 5px solid #007bff;
+        padding-left: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* === DANH SÁCH SẢN PHẨM CUỘN NGANG === */
+    .list-container {
+        display: flex;
+        flex-wrap: nowrap; /* Buộc cuộn ngang */
+        gap: 20px;
+        overflow-x: auto;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        padding-bottom: 15px; /* Cho khoảng trống cho thanh cuộn */
+    }
+        /* Ẩn thanh cuộn mặc định */
+        .list-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .list-container::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+    /* === ITEM SẢN PHẨM BÁN CHẠY === */
+    .lproduct-list {
+        flex: 0 0 160px; /* Kích thước cố định */
+        max-width: 160px;
+        background: #fdfdfd;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        text-align: center;
+        padding: 10px;
+    }
+
+        .lproduct-list:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            border-color: #007bff;
+        }
+
+        .lproduct-list img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .lproduct-list h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin: 5px 0 5px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    .prodSale {
+        color: #dc3545; /* Màu đỏ đậm cho giá */
+        font-weight: 700;
+        font-size: 16px;
+        margin-bottom: 0;
+    }
+
+    /* === PHÂN TRANG (PAGINATION) === */
+    .pagination-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    /* Đảm bảo PagedList nằm ngang (giả sử sử dụng Bootstrap style) */
+    .pagination {
+        display: inline-flex;
+        padding-left: 0;
+        list-style: none;
+        border-radius: .25rem;
+    }
+
+        .pagination > li > a,
+        .pagination > li > span {
+            border-radius: 5px;
+            margin: 0 3px;
+            color: #007bff;
+        }
+
+        .pagination > .active > a,
+        .pagination > .active > span {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+</style>
+
+</style>
+
+@if (Model.TopProducts!=null && Model.TopProducts.Any())
+            {
+                <section class="container-fluid listProducts">
+                    <h4 style="font-weight:bold;">San pham Ban chay</h4>
+                    <ul class="list-container">
+                        @foreach(var product in Model.TopProducts)
+                {
+                    <li class="lproduct-list">
+                        <div>
+                            <a href="@Url.Action("ProductDetails","Home", new { id = product.ProductID })">
+                                <img src="@Html.DisplayFor(modelItem=>product.ProductImage)" />
+                            </a>
+                        </div>
+                        <div >
+                            <h5>@Html.DisplayFor(modelItem=>product.ProductName)</h5>
+                            <p class="prodSale">@Html.DisplayFor(modelItem=>product.ProductPrice)</p>
+                        </div>
+                    </li>
+                } 
+                    </ul>
+                </section>
+                <div class="pagination-container">
+                    @Html.PagedListPager(Model.TopProducts, page => Url.Action("ProductDetails", new
+               {
+                   id = Model.product.ProductID, quantity = Model.quantity,
+                   page
+                    }))
+                </div>
+            }
+

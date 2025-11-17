@@ -1,0 +1,111 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.HomeProductVM
+    <style>
+        .featureProduct {
+            background: linear-gradient(90deg, #ff4e00, #ec9f05);
+            border-radius: 10px;
+            padding: 25px;
+            color: #fff;
+            margin-top: 20px;
+        }
+
+            .featureProduct h2 {
+                text-align: center;
+                margin-bottom: 25px;
+                font-weight: bold;
+            }
+
+        /* Container chứa danh sách sản phẩm */
+        .feature-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        /* Từng item */
+        .fproduct-item {
+            background: #fff;
+            border-radius: 12px;
+            width: calc(20% - 10px);
+            overflow: hidden;
+            color: #000;
+            padding: 12px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .fproduct-item:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+            }
+
+            /* Hình sản phẩm */
+            .fproduct-item img {
+                width: 100%;
+                height: 180px;
+                object-fit: contain;
+                margin-bottom: 10px;
+            }
+
+        /* Giá */
+        .prodPrice {
+            color: #e4002b;
+            font-size: 17px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        /* Tên sản phẩm */
+        .prodName {
+            font-weight: bold;
+            font-size: 15px;
+            margin: 5px 0;
+        }
+
+        /* Danh mục */
+        .prodCate {
+            font-size: 13px;
+            color: #555;
+            margin: 3px 0;
+        }
+
+        /* Đã bán */
+        .prodSale {
+            font-size: 13px;
+            color: #333;
+            margin: 3px 0;
+        }
+    </style>
+@if (Model.FeaturedProducts !=null && Model.FeaturedProducts.Any())
+            {
+                <section class="container-fluid featureProduct">
+                    <h2>San Pham Noi Bat</h2>
+                    <div class="feature-container">
+                        @foreach(var product in Model.FeaturedProducts)
+                         {
+                         <div class="fproduct-item">
+                            <div>
+                            <a href="@Url.Action("ProductDetails","Home" ,new { id = product.ProductID })">
+                                <img src="@product.ProductImage" alt="@product.ProductName" />
+                            </a>
+                         </div>
+                         <div>
+                            <p class="prodPrice">
+                                @Html.DisplayFor(modelItem => product.ProductPrice)
+                            </p>
+                            <p class="prodName">
+                                @Html.DisplayFor(modelItem => product.ProductName)
+                            </p>
+                            <p class="prodCate">
+                                @Html.DisplayFor(modelItem => product.CAtegory.CategoryName)
+                            </p>
+                            <p class="prodSale">
+                               Da Ban :&nbsp; @Html.DisplayFor(modelItem => product.OrderDetails.Count)
+                            </p>
+                        </div>
+                    </div>
+                }
+                    </div>
+                </section>
+                <hr />
+            }

@@ -1,0 +1,38 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.ProductSearchVM
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLAyout.cshtml";
+}
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width"/>
+        <title> Search</title>
+        <style>
+            .search-container , .order-container{
+                padding-top: 20px ;
+                display: flex ;
+                justify-content:center;
+                align-items:center;
+
+
+            }
+        </style>
+    </head>
+    <body>
+        @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+            {
+                <div class="form-group search-container">
+                    @Html.TextBoxFor(m=> m.SearchTerm,new
+               {
+                   @class= "form-control", 
+                   placeholder ="Nhập tên, mô tả hoặc chủng loại sản phẩm "
+               })
+                    <button type="submit" class="btn btn-primary">Tìm Kiếm </button>
+                </div>
+            }
+        @Html.Partial("PVProductList",Model)
+    </body>
+    </html>
+

@@ -1,0 +1,470 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh mục điện thoại</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", system-ui, Arial, sans-serif;
+            background: #f6f7fb;
+            color: #222;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1300px;
+            margin: 20px auto;
+            gap: 30px;
+        }
+
+        /* ----- Filter ----- */
+        .filter-section {
+            width: 260px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.08);
+        }
+
+            .filter-section h3 {
+                font-size: 18px;
+                margin-bottom: 14px;
+                color: #d40000;
+            }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+            .filter-group h4 {
+                font-size: 15px;
+                margin-bottom: 8px;
+                color: #333;
+            }
+
+            .filter-group ul {
+                list-style: none;
+            }
+
+            .filter-group li {
+                margin-bottom: 6px;
+                font-size: 14px;
+            }
+
+            .filter-group input {
+                margin-right: 6px;
+                accent-color: #d40000;
+            }
+
+        .btn-apply {
+            width: 100%;
+            padding: 10px;
+            background: #d40000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background .2s;
+        }
+
+            .btn-apply:hover {
+                background: #a80000;
+            }
+
+        /* ----- Product Section ----- */
+        .product-section {
+            flex: 1;
+        }
+
+            .product-section h2 {
+                font-size: 22px;
+                margin-bottom: 18px;
+                color: #222;
+            }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 6px 18px rgba(16,24,40,.06);
+            display: flex;
+            flex-direction: column;
+            transition: transform .2s;
+        }
+
+            .card:hover {
+                transform: translateY(-4px);
+            }
+
+        .thumb {
+            height: 180px;
+            border-radius: 8px;
+            background: #f6f8fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+            .thumb img {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+
+        .card h4 {
+            font-size: 15px;
+            margin: 8px 0;
+            color: #333;
+            min-height: 42px;
+        }
+
+        .price {
+            font-weight: 700;
+            color: #e53935;
+        }
+
+        .old {
+            font-size: 12px;
+            color: #8890a6;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+
+        .btn-row {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            .btn.buy {
+                background: #c91518;
+                color: white;
+            }
+
+            .btn.cart {
+                background: #eef2ff;
+                color: #0b57d0;
+            }
+
+    </style>
+</head>
+<body>
+    <main class="category-page">
+        <div class="container">
+
+            <!-- Bộ lọc -->
+            <aside class="filter-section">
+                <h3>Bộ lọc sản phẩm</h3>
+
+                <div class="filter-group">
+                    <h4>Hãng sản xuất</h4>
+                    <ul>
+                        <li><label><input type="checkbox"> Apple (iPhone)</label></li>
+                        <li><label><input type="checkbox"> Samsung</label></li>
+                        <li><label><input type="checkbox"> Xiaomi</label></li>
+                        <li><label><input type="checkbox"> OPPO</label></li>
+                        <li><label><input type="checkbox"> vivo</label></li>
+                        <li><label><input type="checkbox"> Realme</label></li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Giá</h4>
+                    <ul>
+                        <li><label><input type="checkbox"> Dưới 5 triệu</label></li>
+                        <li><label><input type="checkbox"> 5 – 10 triệu</label></li>
+                        <li><label><input type="checkbox"> 10 – 20 triệu</label></li>
+                        <li><label><input type="checkbox"> Trên 20 triệu</label></li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <h4>RAM</h4>
+                    <ul>
+                        <li><label><input type="checkbox"> 4 GB</label></li>
+                        <li><label><input type="checkbox"> 6 GB</label></li>
+                        <li><label><input type="checkbox"> 8 GB</label></li>
+                        <li><label><input type="checkbox"> 12 GB</label></li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Dung lượng lưu trữ</h4>
+                    <ul>
+                        <li><label><input type="checkbox"> 64 GB</label></li>
+                        <li><label><input type="checkbox"> 128 GB</label></li>
+                        <li><label><input type="checkbox"> 256 GB</label></li>
+                        <li><label><input type="checkbox"> 512 GB</label></li>
+                    </ul>
+                </div>
+
+                <button class="btn-apply">Áp dụng</button>
+            </aside>
+
+            <!-- Danh sách sản phẩm -->
+            <section class="product-section">
+                <h2>Điện thoại nổi bật</h2>
+
+                <div class="product-grid">
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <a href="@Url.Action("Index","Product")" class="action-link"><button class="btn buy">Mua ngay</button></a>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/iphone_17_pro_max_cosmic_orange_1_a940b68476.png" alt="">
+                        </div>
+                        <h4>iPhone 17 Pro Max 256GB</h4>
+                        <p class="price">33.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/samsung_galaxy_z_fold7_xam_1_de1fb8f431.png" alt="">
+                        </div>
+                        <h4>Samsung Galaxy Z Fold7 5G 12GB 256GB</h4>
+                        <p class="price">16.990.000 ₫ <span class="old">18.490.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/samsung_galaxy_z_flip7_do_1_5d87026b00.png" alt="">
+                        </div>
+                        <h4>Samsung Galaxy Z Flip7 5G 12GB 256GB</h4>
+                        <p class="price">25.490.000 ₫ <span class="old">27.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <a href="@Url.Action("Index","Product")" class="action-link"><button class="btn buy">Mua ngay</button></a>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/xiaomi_poco_x7_den_vang_5_9d618c2219.png" alt="">
+                        </div>
+                        <h4>Xiaomi Poco X7 5G 12GB 512GB</h4>
+                        <p class="price">7.690.000 ₫ <span class="old">10.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/tecno_pova_7_bac_5_3bd0afcf4a.png" alt="">
+                        </div>
+                        <h4>Tecno Pova 7 8GB 128GB</h4>
+                        <p class="price">4.090.000đ <span class="old">4.590.000đ</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/iphone_16_plus_pink_9ea3233dfe.png" alt="">
+                        </div>
+                        <h4>iPhone 16 Plus 128GB</h4>
+                        <p class="price">24.790.000đ <span class="old">25.490.000đ</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/honor_400_pro_den_4_6263efd712.png" alt="">
+                        </div>
+                        <h4>Honor 400 Pro 5G 12GB 512GB</h4>
+                        <p class="price">16.990.000đ <span class="old">18.650.000đ</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/150x0/filters:format(webp):quality(75)/samssung_galaxy_s24_fe_den_7f4246d44a.png" alt="">
+                        </div>
+                        <h4>Samsung Galaxy S24 FE 5G 128GB</h4>
+                        <p class="price">11.490.000đ <span class="old">16.690.000đ</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="https://cdn2.fptshop.com.vn/unsafe/240x0/filters:quality(75)/2023_9_20_638307989548944936_iphone-15-promax-xanh-1.jpg" alt="">
+                        </div>
+                        <h4>iPhone 15 Pro Max 256 GB</h4>
+                        <p class="price">34.990.000 ₫ <span class="old">37.990.000 ₫</span></p>
+                        <div class="btn-row">
+                            <button class="btn buy">Mua ngay</button>
+                            <button class="btn cart">Thêm giỏ</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <script src="~/Content/Category.js"></script>
+        </div>
+    </main>
+</body>
+</html>
+

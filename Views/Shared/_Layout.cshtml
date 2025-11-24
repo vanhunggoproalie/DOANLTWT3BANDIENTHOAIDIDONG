@@ -484,9 +484,9 @@
             </a>
         </div>
         @*<div class="searchbar">
-            <input id="q" placeholder="Bạn tìm gì hôm nay? Ví dụ: iPhone 15, Laptop, Tai nghe..." />
-            <button id="btnSearch">Tìm kiếm</button>
-        </div>*@
+                <input id="q" placeholder="Bạn tìm gì hôm nay? Ví dụ: iPhone 15, Laptop, Tai nghe..." />
+                <button id="btnSearch">Tìm kiếm</button>
+            </div>*@
         <div class="searchbar">
             @* Bỏ style="display:flex; width:100%;" ra khỏi Form *@
             @using (Html.BeginForm("HomeSearch", "Home", FormMethod.Get, new { @class = "search-form" }))
@@ -496,71 +496,71 @@
                        name="searchTerm"
                        value="@Request.QueryString["searchTerm"]"
                        placeholder="Bạn tìm gì hôm nay? Ví dụ: iPhone 15, Laptop..."
-                       class="search-input" /> 
+                       class="search-input" />
 
-                        <button type="submit" class="search-button">
-                            Tìm kiếm
-                        </button>
-                    }
-                </div>
+                <button type="submit" class="search-button">
+                    Tìm kiếm
+                </button>
+            }
+        </div>
 
-                        <div class="header-actions">
-                            <div class="action" id="hotline"><span class="icon">📞</span><div>Hotline: 1800 6601</div></div>
-                            @*<a href="@Url.Action("Login","Account")" class="action-link"><div class="action" id="account"><span class="icon">👤</span><div>Đăng nhập</div></div></a>*@
-                    <div class="action action-link" id="account">
-                        @if (Request.IsAuthenticated)
-                        {
-                            // Đã đăng nhập: Hiển thị tên người dùng và menu xổ xuống
-                            <span class="icon">👤</span>
-                            <div>
-                                Xin chào, <strong>@User.Identity.Name</strong>
-                            </div>
-
-                            <div class="dropdown-menu">
-                                <a href="@Url.Action("Profile", "Account")" class="dropdown-item"><i class='bx bxs-user-detail'></i> Thông tin cá nhân</a>
-                                <a href="@Url.Action("Orders", "Account")" class="dropdown-item"><i class='bx bxs-truck'></i> Đơn hàng của tôi</a>
-                                <a href="@Url.Action("Logout", "Account")" class="dropdown-item"><i class='bx bx-log-out'></i> Đăng xuất</a>
-                            </div>
-                        }
-                        else
-                        {
-                            // Chưa đăng nhập: Hiển thị nút Đăng nhập
-                            <a href="@Url.Action("Login","Account")" class="action-link" style="color: inherit; text-decoration: none;">
-                                <span class="icon">👤</span>
-                                <div>Đăng nhập</div>
-                            </a>
-                        }
+        <div class="header-actions">
+            <div class="action" id="hotline"><span class="icon">📞</span><div>Hotline: 1800 6601</div></div>
+            @*<a href="@Url.Action("Login","Account")" class="action-link"><div class="action" id="account"><span class="icon">👤</span><div>Đăng nhập</div></div></a>*@
+            <div class="action action-link" id="account">
+                @if (Request.IsAuthenticated)
+                {
+                    // Đã đăng nhập: Hiển thị tên người dùng và menu xổ xuống
+                    <span class="icon">👤</span>
+                    <div>
+                        Xin chào, <strong>@User.Identity.Name</strong>
                     </div>
-                    @*<a href="@Url.Action("ShoppingCart", "Home")" class="action-link"><div class="action" id="cart"><span class="icon">🛒</span><div>Giỏ hàng (<span id="cartCount">0</span>)</div></div></a>*@
-                    <a href="@Url.Action("ShoppingCart", "Home")" class="action-link">
-                        <div class="action" id="cart">
-                            <span class="icon">🛒</span>
-                            <div>
-                                Giỏ hàng (<span id="cartCount">
 
-                                    @* Lấy số lượng sản phẩm từ Session hoặc ViewModel *@
-                                    @{
-                                        int cartCount = 0;
-                                        if (Session["CartCount"] != null)
-                                        {
-                                            cartCount = (int)Session["CartCount"];
-                                        }
-                                    }
-                                    @cartCount
-
-                                </span>)
-                            </div>
-                        </div>
+                    <div class="dropdown-menu">
+                        <a href="@Url.Action("Profile", "Account")" class="dropdown-item"><i class='bx bxs-user-detail'></i> Thông tin cá nhân</a>
+                        <a href="@Url.Action("Orders", "Account")" class="dropdown-item"><i class='bx bxs-truck'></i> Đơn hàng của tôi</a>
+                        <a href="@Url.Action("Logout", "Account")" class="dropdown-item"><i class='bx bx-log-out'></i> Đăng xuất</a>
+                    </div>
+                }
+                else
+                {
+                    // Chưa đăng nhập: Hiển thị nút Đăng nhập
+                    <a href="@Url.Action("Login","Account")" class="action-link" style="color: inherit; text-decoration: none;">
+                        <span class="icon">👤</span>
+                        <div>Đăng nhập</div>
                     </a>
-                </div>
-                </div>
-                <div class="header-actions">
-                    <div class="action" id="hotline">
-                        <span class="icon">📞</span>
-                        <div>Hotline: 1800 6601</div>
+                }
+            </div>
+            @*<a href="@Url.Action("ShoppingCart", "Home")" class="action-link"><div class="action" id="cart"><span class="icon">🛒</span><div>Giỏ hàng (<span id="cartCount">0</span>)</div></div></a>*@
+            <a href="@Url.Action("ShoppingCart", "Home")" class="action-link">
+                <div class="action" id="cart">
+                    <span class="icon">🛒</span>
+                    <div>
+                        Giỏ hàng (<span id="cartCount">
+
+                            @* Lấy số lượng sản phẩm từ Session hoặc ViewModel *@
+                            @{
+                                int cartCount = 0;
+                                if (Session["CartCount"] != null)
+                                {
+                                    cartCount = (int)Session["CartCount"];
+                                }
+                            }
+                            @cartCount
+
+                        </span>)
                     </div>
                 </div>
-            </header>
+            </a>
+        </div>
+        </div>
+        <div class="header-actions">
+            <div class="action" id="hotline">
+                <span class="icon">📞</span>
+                <div>Hotline: 1800 6601</div>
+            </div>
+        </div>
+    </header>
 
     <nav>
         <a href="#">Điện thoại</a>
@@ -637,7 +637,8 @@
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-
-
+    @RenderSection("Scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>

@@ -197,6 +197,7 @@
     <Compile Include="Models\ViewModels\HomeProductVM.cs" />
     <Compile Include="Models\ViewModels\LoginVM.cs" />
     <Compile Include="Models\ViewModels\PersonalMenuVM.cs" />
+    <Compile Include="Models\ViewModels\ProductCategoryVM.cs" />
     <Compile Include="Models\ViewModels\ProductDetailsVM.cs" />
     <Compile Include="Models\ViewModels\ProductSearchVM.cs" />
     <Compile Include="Models\ViewModels\RegisterVM.cs" />
@@ -307,7 +308,7 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Home\ShoppingCart.cshtml" />
-    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\X.cshtml" />
     <Content Include="Views\OrderDetail\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -322,6 +323,8 @@
     <Content Include="Views\Home\_HeaderMenuActions.cshtml" />
     <Content Include="Views\Home\HomeSearch.cshtml" />
     <Content Include="Views\Home\_ProductListItem.cshtml" />
+    <Content Include="Views\Category\_ProductListPartial.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

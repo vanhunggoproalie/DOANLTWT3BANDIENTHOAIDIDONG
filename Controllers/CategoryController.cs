@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
+using DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels;
 
 
 namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
@@ -16,8 +17,26 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
         // GET: Category
         public ActionResult Index()
         {
-            return View(db.CAtegories.ToList());
+            var model = new ProductCategoryVM();
+            model.Categories = db.CAtegories.ToList(); // Lấy tất cả danh mục
+            model.Products = db.Products.ToList();
+            return View(model);
         }
+        [HttpPost]
+        public ActionResult FilterProducts(int[] categoryIds)
+        {
+            var products = db.Products.AsQueryable();
+
+            
+            if (categoryIds != null && categoryIds.Length > 0)
+            {
+                products = products.Where(p => categoryIds.Contains(p.CategoryID));
+            }
+
+            // Trả về Partial View chứa danh sách sản phẩm đã lọc
+            return PartialView("_ProductListPartial", products.ToList());
+        }
+
         public ActionResult Add()
         {
             return View();

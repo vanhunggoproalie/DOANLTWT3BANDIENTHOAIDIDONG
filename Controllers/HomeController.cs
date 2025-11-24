@@ -29,7 +29,7 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
             }
             int pageNumber = page ?? 1;
             int pageSize = 6;
-            model.FeaturedProducts = products.OrderByDescending(p=>p.OrderDetails.Count()).Take(10).ToList();
+            model.FeaturedProducts = products.OrderByDescending(p=>p.OrderDetails.Count()).Take(8).ToList();
             model.NewProducts = products.OrderBy(p=>p.OrderDetails.Count()).Take(20).ToPagedList(pageNumber, pageSize);
             return View(model);
         }
@@ -80,7 +80,7 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
             int pageNumber = page?? 1;
             int pageSize = 6;
             model.FeaturedProducts = products.OrderByDescending(p=>p.OrderDetails.Count()).Take(10).ToList();
-            model.NewProducts = products.OrderBy(p => p.OrderDetails.Count()).Take(20).ToPagedList(pageNumber,pageSize);
+            model.NewProducts = products.OrderByDescending(p => p.OrderDetails.Count()).Take(20).ToPagedList(pageNumber,pageSize);
             return View(model);
         }
         public ActionResult ProductDetails(int? id, int? quantity, int?page)

@@ -11,8 +11,6 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Web;
 
@@ -23,28 +21,19 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Models
         {
             this.OrderDetails = new HashSet<OrderDetail>();
         }
+    
         public int ProductID { get; set; }
         public int CategoryID { get; set; }
-
-        [DisplayName("Tên S?n Ph?m")]
-        [Required(ErrorMessage = "Tên s?n ph?m không ???c ?? tr?ng.")]
-        [StringLength(255, MinimumLength = 5, ErrorMessage = "Tên s?n ph?m ph?i t? 5 ??n 255 ký t?.")]
         public string ProductName { get; set; }
-
-        [DisplayName("Mô T? S?n Ph?m")]
-        [DataType(DataType.MultilineText)] 
-        [Required(ErrorMessage = "Mô t? s?n ph?m không ???c ?? tr?ng.")]
         public string ProductDecription { get; set; }
-
-        [DisplayName("Giá Bán")]
-        [Required(ErrorMessage = "Giá s?n ph?m không ???c ?? tr?ng.")]
         public decimal ProductPrice { get; set; }
         public string ProductImage { get; set; }
     
         public virtual CAtegory CAtegory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
         [NotMapped]
-        public HttpPostedFile UpLoadImg { get; set; }
+        public HttpPostedFileBase UpLoadImg { get; set; } 
     }
 }

@@ -1,4 +1,5 @@
-﻿<html lang="vi">
+﻿
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -66,7 +67,7 @@
                 background: #a30000;
             }
 
-        .searchbar {
+        /*.searchbar {
             flex: 1;
             max-width: 640px;
             margin: 0 20px;
@@ -89,12 +90,56 @@
                 color: white;
                 cursor: pointer
             }
+*/
+        .searchbar {
+            /* Cho phép thanh tìm kiếm chiếm nhiều không gian hơn */
+            flex: 2.5; /* Thay vì flex: 1, dùng flex: 2.5 để nó dài hơn */
+            max-width: 800px; /* Tăng giới hạn chiều rộng tối đa */
+            margin: 0 20px;
+        }
 
+            /* Áp dụng flexbox lên form để chứa input và button */
+            .searchbar form.search-form {
+                display: flex;
+                width: 100%;
+                /* Thêm shadow để thanh tìm kiếm nổi bật hơn */
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 15px; /* Giúp form bo tròn tổng thể */
+            }
+
+            /* Chỉnh Input */
+            .searchbar input.search-input {
+                flex: 1;
+                padding: 10px 18px; /* Tăng padding để input trông to hơn */
+                border: 2px solid #ccc; /* Thêm border để dễ nhìn */
+                border-right: none;
+                border-radius: 15px 0 0 15px;
+                font-size: 15px;
+            }
+
+            /* Chỉnh Button */
+            .searchbar button.search-button {
+                padding: 10px 18px; /* Giữ padding khớp với input */
+                /* Sửa đổi quan trọng: Thay màu đỏ bằng màu đen và chỉnh border */
+                border: 2px solid black;
+                border-left: none; /* Bỏ border trái để liền với input */
+                border-radius: 0 15px 15px 0;
+                background: black; /* Màu đen */
+                color: white;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+
+                .searchbar button.search-button:hover {
+                    background: #333; /* Hơi nhạt hơn khi hover */
+                }
         .header-actions {
             display: flex;
             gap: 12px;
             align-items: center
         }
+
         .action:hover {
             background-color: rgba(255, 255, 255, 0.2); /* Tạo hiệu ứng hover */
         }
@@ -438,18 +483,84 @@
                 <span>Danh mục</span>
             </a>
         </div>
-        <div class="searchbar">
+        @*<div class="searchbar">
             <input id="q" placeholder="Bạn tìm gì hôm nay? Ví dụ: iPhone 15, Laptop, Tai nghe..." />
             <button id="btnSearch">Tìm kiếm</button>
-        </div>
-
-        @*<div class="header-actions">
-            <div class="action" id="hotline"><span class="icon">📞</span><div>Hotline: 1800 6601</div></div>
-            <a href="@Url.Action("Login","Account")" class="action-link"><div class="action" id="account"><span class="icon">👤</span><div>Đăng nhập</div></div></a>
-            <a href="@Url.Action("ShoppingCart", "Home")" class="action-link"><div class="action" id="cart"><span class="icon">🛒</span><div>Giỏ hàng (<span id="cartCount">0</span>)</div></div></a>
         </div>*@
-        @Html.Action("_HeaderMenuActions", "Home")
-    </header>
+        <div class="searchbar">
+            @* Bỏ style="display:flex; width:100%;" ra khỏi Form *@
+            @using (Html.BeginForm("HomeSearch", "Home", FormMethod.Get, new { @class = "search-form" }))
+            {
+                @* Bỏ các style inline ra khỏi Input và Button *@
+                <input type="text"
+                       name="searchTerm"
+                       value="@Request.QueryString["searchTerm"]"
+                       placeholder="Bạn tìm gì hôm nay? Ví dụ: iPhone 15, Laptop..."
+                       class="search-input" /> 
+
+                        <button type="submit" class="search-button">
+                            Tìm kiếm
+                        </button>
+                    }
+                </div>
+
+                        <div class="header-actions">
+                            <div class="action" id="hotline"><span class="icon">📞</span><div>Hotline: 1800 6601</div></div>
+                            @*<a href="@Url.Action("Login","Account")" class="action-link"><div class="action" id="account"><span class="icon">👤</span><div>Đăng nhập</div></div></a>*@
+                    <div class="action action-link" id="account">
+                        @if (Request.IsAuthenticated)
+                        {
+                            // Đã đăng nhập: Hiển thị tên người dùng và menu xổ xuống
+                            <span class="icon">👤</span>
+                            <div>
+                                Xin chào, <strong>@User.Identity.Name</strong>
+                            </div>
+
+                            <div class="dropdown-menu">
+                                <a href="@Url.Action("Profile", "Account")" class="dropdown-item"><i class='bx bxs-user-detail'></i> Thông tin cá nhân</a>
+                                <a href="@Url.Action("Orders", "Account")" class="dropdown-item"><i class='bx bxs-truck'></i> Đơn hàng của tôi</a>
+                                <a href="@Url.Action("Logout", "Account")" class="dropdown-item"><i class='bx bx-log-out'></i> Đăng xuất</a>
+                            </div>
+                        }
+                        else
+                        {
+                            // Chưa đăng nhập: Hiển thị nút Đăng nhập
+                            <a href="@Url.Action("Login","Account")" class="action-link" style="color: inherit; text-decoration: none;">
+                                <span class="icon">👤</span>
+                                <div>Đăng nhập</div>
+                            </a>
+                        }
+                    </div>
+                    @*<a href="@Url.Action("ShoppingCart", "Home")" class="action-link"><div class="action" id="cart"><span class="icon">🛒</span><div>Giỏ hàng (<span id="cartCount">0</span>)</div></div></a>*@
+                    <a href="@Url.Action("ShoppingCart", "Home")" class="action-link">
+                        <div class="action" id="cart">
+                            <span class="icon">🛒</span>
+                            <div>
+                                Giỏ hàng (<span id="cartCount">
+
+                                    @* Lấy số lượng sản phẩm từ Session hoặc ViewModel *@
+                                    @{
+                                        int cartCount = 0;
+                                        if (Session["CartCount"] != null)
+                                        {
+                                            cartCount = (int)Session["CartCount"];
+                                        }
+                                    }
+                                    @cartCount
+
+                                </span>)
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                </div>
+                <div class="header-actions">
+                    <div class="action" id="hotline">
+                        <span class="icon">📞</span>
+                        <div>Hotline: 1800 6601</div>
+                    </div>
+                </div>
+            </header>
 
     <nav>
         <a href="#">Điện thoại</a>

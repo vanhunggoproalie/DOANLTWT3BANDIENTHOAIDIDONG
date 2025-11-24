@@ -1,0 +1,42 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.Product
+@using System.Globalization
+
+@{
+    // Thiết lập format tiền tệ
+    var culture = new CultureInfo("vi-VN");
+}
+
+<div class="product-item list-item-large">
+    <a href="@Url.Action("ProductDetails", "Home", new { id = Model.ProductID })" class="product-link">
+
+        <div class="list-item-image">
+            <img src="@Model.ProductImage" alt="@Model.ProductName" />
+        </div>
+
+        <div class="list-item-details">
+            <h3>@Model.ProductName</h3>
+            <p class="product-sku">Mã sản phẩm: @Model.ProductID</p>
+            @* Bạn có thể thêm mô tả ngắn hoặc thông tin thương hiệu tại đây *@
+            <p>Danh mục: **@Model.CAtegory.CategoryName**</p>
+        </div>
+
+        <div class="list-item-actions">
+            <div class="price-info">
+                @* Hiển thị chỉ ProductPrice, không cần kiểm tra Discount *@
+                <p class="current-price no-discount">@Model.ProductPrice.ToString("N0", culture)₫</p>
+            </div>
+
+            <div class="button-group">
+                
+                <a href="@Url.Action("ProductDetails", "Home", new { id = Model.ProductID })" class="btn btn-buy-now">
+                    Mua ngay
+                </a>
+
+                @* Nút Thêm vào giỏ (gọi AJAX hoặc Form POST) *@
+                <button type="button" class="btn btn-add-cart" data-id="@Model.ProductID">
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </div>
+    </a>
+</div>

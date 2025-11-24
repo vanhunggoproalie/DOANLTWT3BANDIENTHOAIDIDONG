@@ -1,0 +1,158 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.HomeProductVM
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Kết Quả Tìm Kiếm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .product-list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Khoảng cách giữa các sản phẩm */
+        margin-top: 20px;
+    }
+
+    /* Định dạng chung cho mỗi Item */
+    .product-item.list-item-large {
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 15px;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .product-item.list-item-large:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+    /* Liên kết sản phẩm (để toàn bộ item có thể click) */
+    .product-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        gap: 20px;
+    }
+
+    /* Cột Hình ảnh */
+    .list-item-image {
+        width: 120px;
+        height: 120px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+    }
+
+        .list-item-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+    /* Cột Chi tiết */
+    .list-item-details {
+        flex-grow: 1; /* Chiếm hết không gian còn lại */
+    }
+
+        .list-item-details h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+    .product-sku {
+        font-size: 13px;
+        color: #888;
+    }
+
+    /* Cột Hành động (Giá & Nút) */
+    .list-item-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+        min-width: 180px;
+    }
+
+    .price-info {
+        text-align: right;
+    }
+
+    .current-price {
+        font-size: 20px;
+        color: #dc3545; /* Màu đỏ */
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .old-price {
+        font-size: 14px;
+        color: #999;
+        text-decoration: line-through;
+        margin: 0;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .btn-buy-now {
+        background-color: #e60012; /* Màu đỏ nổi bật */
+        color: white;
+        border: 1px solid #e60012;
+    }
+
+        .btn-buy-now:hover {
+            background-color: #c00;
+        }
+
+    .btn-add-cart {
+        background-color: #f1f1f1;
+        color: #333;
+        border: 1px solid #ccc;
+    }
+
+        .btn-add-cart:hover {
+            background-color: #e0e0e0;
+        }
+</style>
+<div class="container search-results-page">
+    <h2>Kết Quả Tìm Kiếm: @Model.SearchTerm</h2>
+
+    @if (Model.NewProducts != null && Model.NewProducts.Any())
+    {
+        <p>Tìm thấy @Model.NewProducts.TotalItemCount sản phẩm phù hợp.</p>
+
+        <div class="product-list-container">
+            @foreach (var product in Model.NewProducts)
+            {
+                // Dùng Partial View mới để hiển thị từng sản phẩm
+                @Html.Partial("_ProductListItem", product)
+            }
+        </div>
+
+        <div class="pagination-container">
+            @Html.PagedListPager(Model.NewProducts, page => Url.Action("HomeSearch", new { page = page, searchTerm = Model.SearchTerm }))
+        </div>
+    }
+    else
+    {
+        <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "@Model.SearchTerm".</p>
+    }
+</div>
+

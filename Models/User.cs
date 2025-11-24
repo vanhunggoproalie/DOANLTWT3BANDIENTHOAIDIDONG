@@ -11,7 +11,6 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class User
     {
@@ -20,16 +19,9 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Models
         {
             this.Customers = new HashSet<Customer>();
         }
-
-        [Required(ErrorMessage = "Tên ??ng nh?p không ???c ?? tr?ng")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Tên ??ng nh?p ph?i t? 3 ??n 50 ký t?")]
+    
         public string Username { get; set; }
-
-        [Required(ErrorMessage = "M?t kh?u không ???c ?? tr?ng")]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "M?t kh?u ph?i t? 6 ??n 20 ký t?")]
         public string Password { get; set; }
-
-        [Required(ErrorMessage = "Quy?n ng??i dùng không ???c ?? tr?ng")]
         public string UserRole { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

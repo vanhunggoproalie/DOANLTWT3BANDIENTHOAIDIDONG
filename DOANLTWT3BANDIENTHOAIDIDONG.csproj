@@ -317,10 +317,11 @@
     <Content Include="Views\Home\_PVNewProduct.cshtml" />
     <Content Include="Views\Home\_PVFeatureProduct.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
-    <Content Include="Views\Cart\_PVSimilarProduct.cshtml" />
     <Content Include="Views\Order\CheckOut.cshtml" />
     <Content Include="Views\Order\OrderSucess.cshtml" />
     <Content Include="Views\Home\_HeaderMenuActions.cshtml" />
+    <Content Include="Views\Home\HomeSearch.cshtml" />
+    <Content Include="Views\Home\_ProductListItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

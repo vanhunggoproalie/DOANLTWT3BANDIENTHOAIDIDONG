@@ -1,0 +1,33 @@
+﻿@model List<DOANLTWT3BANDIENTHOAIDIDONG.Models.Order>
+
+@if (Model == null || !Model.Any())
+{
+    <p>Không có đơn hàng nào.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Mã đơn</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Thanh toán</th>
+                <th>Phương thức giao</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model)
+            {
+                <tr>
+                    <td>@o.OrderID</td>
+                    <td>@o.OrderDate.ToString("dd/MM/yyyy")</td>
+                    <td>@string.Format("{0:N0} đ", o.TotalAmount)</td>
+                    <td>@o.PaymentMethod</td>
+                    <td>@o.ShippingMethod</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

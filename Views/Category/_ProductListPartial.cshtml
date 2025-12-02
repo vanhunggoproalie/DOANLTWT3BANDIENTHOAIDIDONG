@@ -1,37 +1,4 @@
-﻿@*@model IEnumerable<DOANLTWT3BANDIENTHOAIDIDONG.Models.Product>
-
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
-                <div class="product-card">
-
-                    <a href="@Url.Action("Details", "Product", new { id = item.ProductID })" class="product-link">
-                        <div class="product-img-container">
-                            <img src="~/Images/@item.ProductImage" alt="@item.ProductName" />
-                        </div>
-
-                        <div class="product-name">
-                            @item.ProductName
-                        </div>
-
-                        <div class="product-price">
-                            @String.Format("{0:N0} ₫", item.ProductPrice)
-                        </div>
-                    </a>
-
-                    <div class="product-actions">
-                        <a href="@Url.Action("BuyNow", "Cart", new { id = item.ProductID })" class="btn-buy">Mua ngay</a>
-
-                        <button onclick="addToCart(@item.ProductID)" class="btn-add-cart">
-                            Thêm giỏ
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        }
-    </div>*@
+﻿
 @model IEnumerable<DOANLTWT3BANDIENTHOAIDIDONG.Models.Product>
 
 <div class="row">
@@ -40,7 +7,7 @@
         <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
             <div class="product-card">
 
-                <a href="@Url.Action("Details", "Product", new { id = item.ProductID })" class="product-link">
+                <a href="@Url.Action("ProductDetails", "Home", new { id = item.ProductID })" class="product-link">
 
                     <div class="product-img-container">
                         <img src="~/Images/@item.ProductImage" alt="@item.ProductName" />
@@ -57,10 +24,10 @@
                 </a>
 
                 <div class="product-actions">
-                    <a href="@Url.Action("BuyNow", "Cart", new { id = item.ProductID })" class="btn-buy">Mua ngay</a>
+                    <a href="@Url.Action("AddToCart", "Cart", new { id = item.ProductID })" class="btn-buy">Thêm giỏ</a>
 
-                    <button onclick="addToCart(@item.ProductID)" class="btn-add-cart">
-                        Thêm giỏ
+                    <button onclick="addToCart(@item.ProductID)" class="btn-add-cart"><a href="@Url.Action("CheckOut", "Order", new { id = item.ProductID })" class="btn-buynow">Mua Ngay</a>
+                       
                     </button>
                 </div>
 

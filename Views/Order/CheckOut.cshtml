@@ -4,88 +4,140 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2>CheckOut</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+}
 
 <script>
-    function enableAdddressEdit() {
+    function enableAddressEdit() {
         document.getElementById("shippingAddress").removeAttribute("readonly");
         document.getElementById("newAddressGroup").style.display = "block";
-
     }
+
     function updateShippingAddress() {
         var newAddress = document.getElementById("newShippingAddress").value;
-        if (newAddress) {
+        if (newAddress.trim() !== "") {
             document.getElementById("shippingAddress").value = newAddress;
         }
     }
 </script>
-<h2>CheckOut</h2>
+
 @using (Html.BeginForm("CheckOut", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-    <h3>Thong Tin Don Hang</h3>
+{
+    @Html.AntiForgeryToken()
+
+    <h3>Thông Tin Đơn Hàng</h3>
     <div class="form-group">
         <table class="table">
             <thead>
                 <tr>
-                    <th colspan="2">San Pham</th>
-                    <th> So Luong</th>
-                    <th> Don Gia</th>
-                    <th> Thanh Tien</th>
-
+                    <th colspan="2">Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Đơn Giá</th>
+                    <th>Thành Tiền</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.CartItems)
                 {
                     <tr>
-                        <td><img src="@item.ProductImage" /></td>
+                        <td><img src="@item.ProductImage" width="50" /></td>
                         <td>@item.ProductName</td>
                         <td>@item.Quantity</td>
-                        <td>@item.UnitPrice</td>
-                        <td>@item.TotalPrice</td>
+                        <td>@string.Format("{0:N0}", item.UnitPrice) đ</td>
+                        <td>@string.Format("{0:N0}", item.TotalPrice) đ</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    <h3> Thong Tin Giao Hang </h3>
+
+    <h3>Thông Tin Giao Hàng</h3>
+
     <div class="form-group">
-        @Html.LabelFor(m=>m.ShippingAddress , new {@class="control-label col-md-2"})
+        @Html.LabelFor(m => m.ShippingAddress, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m=>m.ShippingAddress, new { @class = "form-control", @readonly = "readonly", @id = "shippingAddress" })
-            @Html.ValidationMessageFor(m=>m.ShippingAddress)
-            <button type="button" class="btn btn-link" onclick="enableAdddressEdit()">Chinh Sua</button>
+            @Html.TextBoxFor(m => m.ShippingAddress, new
+            {
+                @class = "form-control",
+                @readonly = "readonly",
+                @id = "shippingAddress",
+                @required = "required"
+            })
+            @Html.ValidationMessageFor(m => m.ShippingAddress, "", new { @class = "text-danger" })
+            <button type="button" class="btn btn-link" onclick="enableAddressEdit()">Chỉnh Sửa</button>
         </div>
     </div>
+
     <div class="form-group" id="newAddressGroup" style="display:none">
-        @Html.Label("Dia Chi Moi",new {@class="control-label col-md-2"})
+        @Html.Label("Địa Chỉ Mới", new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input type="text" id="newShippingAddress" class="form-control"/>
+            <input type="text" id="newShippingAddress" class="form-control"
+                   oninput="updateShippingAddress()"
+                   placeholder="Nhập địa chỉ mới tại đây..." />
         </div>
     </div>
+
     <div class="form-group">
-        @Html.Label("Phuong Thuc Giao Hang",new {@class="control-label col-md-2"})
+        @Html.LabelFor(m => m.ShippingMethod, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.RadioButtonFor(m=>m.ShippingMethod,"Giao Hang Nhanh")Giao Hang Nhanh<br />
-            @Html.RadioButtonFor(m=>m.ShippingMethod,"Giao Hang Tiet Kiem")Giao Hang Tiet Kiem 
-            @Html.ValidationMessageFor(m=>m.ShippingMethod)
-                                                                                                 
+            @Html.RadioButtonFor(m => m.ShippingMethod, "Giao Hang Nhanh", new { @id = "shippingFast" })
+            @Html.Label("shippingFast", "Giao Hàng Nhanh")
+            <br />
+            @Html.RadioButtonFor(m => m.ShippingMethod, "Giao Hang Tiet Kiem", new { @id = "shippingEconomy" })
+            @Html.Label("shippingEconomy", "Giao Hàng Tiết Kiệm")
+            @Html.ValidationMessageFor(m => m.ShippingMethod, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
-        @Html.Label("Phuong Thuc Thanh Toan", new {@class= "control-label col-md-2"})
+        @Html.LabelFor(m => m.PaymentMethod, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.RadioButtonFor(m=>m.PaymentMethod,"Tien Mat") Tien Mat <br />
-            @Html.RadioButtonFor(m=>m.PaymentMethod,"Paypal") Paypal<br />
-            @Html.RadioButtonFor(m=>m.PaymentMethod,"Mua Truoc Tra Sau")Mua Truoc Tra Sau 
-            @Html.ValidationMessageFor(m => m.PaymentMethod)
+            @Html.RadioButtonFor(m => m.PaymentMethod, "Tien Mat", new { @id = "cash" })
+            @Html.Label("cash", "Tiền Mặt")
+            <br />
+            @Html.RadioButtonFor(m => m.PaymentMethod, "Paypal", new { @id = "paypal" })
+            @Html.Label("paypal", "Paypal")
+            <br />
+            @Html.RadioButtonFor(m => m.PaymentMethod, "Mua Truoc Tra Sau", new { @id = "installment" })
+            @Html.Label("installment", "Mua Trước Trả Sau")
+            @Html.ValidationMessageFor(m => m.PaymentMethod, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(m=>m.TotalAmount, new {@class= "control-label col-md-2"})
+        @Html.LabelFor(m => m.TotalAmount, "Tổng Tiền", new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m=>m.TotalAmount , new {@class="form-control",@readonly="readonly"})
-            @Html.ValidationMessageFor(m => m.TotalAmount)
+            @Html.TextBoxFor(m => m.TotalAmount, new
+            {
+                @class = "form-control",
+                @readonly = "readonly",
+                @Value = string.Format("{0:N0}", Model.TotalAmount)
+            })
+            đ
+        </div>
+    </div>
+
+    @Html.HiddenFor(m => m.OrderDate)
+    @Html.HiddenFor(m => m.CustomerID)
+    @Html.HiddenFor(m => m.Username)
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Xác Nhận Đặt Hàng" class="btn btn-primary btn-lg" />
+            <a href="@Url.Action("Index", "Cart")" class="btn btn-default">Quay lại giỏ hàng</a>
         </div>
     </div>
 }

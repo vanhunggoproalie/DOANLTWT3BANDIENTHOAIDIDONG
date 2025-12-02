@@ -62,5 +62,12 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
         {
             return View();
         }
+        public ActionResult MenuCategory()
+        {
+            var model = new ProductCategoryVM();
+            model.Categories = db.CAtegories.ToList(); // Lấy tất cả danh mục
+            model.Products = db.Products.ToList();
+            return View(model);
+        }
     }
 }

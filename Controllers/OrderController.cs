@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
 {
@@ -17,33 +18,28 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
         {
             return View();
         }
-        [Authorize]
         [HttpGet]
         public ActionResult CheckOut()
         {
             var cart = Session["Cart"] as List<CartItem>;
+            //**Kiem Tra Gio Hang**
             if (cart == null || !cart.Any())
             {
+                TempData["Error"] = "Giỏ hàng của bạn đang trống. Vui lòng mua hàng trước.";
                 return RedirectToAction("Index", "Home");
 
             }
-            var user = db.Users.SingleOrDefault(u => u.Username == User.Identity.Name);
-            if (user == null)
-            {
-                return RedirectToAction("Login", "Account");
 
-            }
-            var customer = db.Customers.SingleOrDefault(c => c.Username == user.Username);
-            if (customer == null) { return RedirectToAction("Login", "Account"); }
             var model = new CheckoutVM
             {
                 CartItems = cart,
                 TotalAmount = cart.Sum(item => item.TotalPrice),
                 OrderDate = DateTime.Now,
-                ShippingAddress = customer.CustomerAddress,
-                CustomerID = customer.CustomerID,
-                Username = customer.Username,
+                ShippingAddress =  "Vui lòng nhập địa chỉ giao hàng",
+                CustomerID = 0,
+                Username = User.Identity.IsAuthenticated ? User.Identity.Name : null,
             };
+           
             return View(model);
         }
         [HttpPost]
@@ -68,7 +64,7 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
                 switch (model.PaymentMethod)
                 {
                     case "Tien Mat": paymentStatus = "Thanh Toan Tien Mat"; break;
-                    case "Paypal": paymentStatus = "Paypak"; break;
+                    case "Paypal": paymentStatus = "Paypal"; break;
                     case "Mua Truoc Tra Sau": paymentStatus = "Tra gop"; break;
                     default: paymentStatus = "Chua Thanh Toan "; break;
                 }
@@ -97,6 +93,8 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
             }
             return View(model);
         }
+
+       
         public ActionResult OrderSucess(int id)
         {
             var order = db.Orders.Include("OrderDetails").SingleOrDefault(o => o.OrderID == id);
@@ -104,7 +102,7 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Controllers
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View("OrderSuccess", new { id = order.OrderID });
         }
     }
 }

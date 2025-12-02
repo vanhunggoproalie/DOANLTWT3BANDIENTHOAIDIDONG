@@ -193,13 +193,17 @@
     <Compile Include="Models\ViewModels\Cart.cs" />
     <Compile Include="Models\ViewModels\CartItem.cs" />
     <Compile Include="Models\ViewModels\CartService.cs" />
+    <Compile Include="Models\ViewModels\ChangePasswordVM.cs" />
     <Compile Include="Models\ViewModels\CheckoutVM.cs" />
+    <Compile Include="Models\ViewModels\EditProfileVM.cs" />
     <Compile Include="Models\ViewModels\HomeProductVM.cs" />
     <Compile Include="Models\ViewModels\LoginVM.cs" />
+    <Compile Include="Models\ViewModels\MyOrderVM.cs" />
     <Compile Include="Models\ViewModels\PersonalMenuVM.cs" />
     <Compile Include="Models\ViewModels\ProductCategoryVM.cs" />
     <Compile Include="Models\ViewModels\ProductDetailsVM.cs" />
     <Compile Include="Models\ViewModels\ProductSearchVM.cs" />
+    <Compile Include="Models\ViewModels\ProfileVM.cs" />
     <Compile Include="Models\ViewModels\RegisterVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -282,6 +286,7 @@
     <Content Include="Areas\Admin\Views\AdminCustomers\Details.cshtml" />
     <Content Include="Areas\Admin\Views\AdminCustomers\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminOrders\_OrderDetailsPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminHome\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -325,11 +330,15 @@
     <Content Include="Views\Home\_ProductListItem.cshtml" />
     <Content Include="Views\Category\_ProductListPartial.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\MyOrder.cshtml" />
+    <Content Include="Views\Account\EditProfile.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\_OrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\AdminHome\" />
     <Folder Include="Views\PayPal\" />
   </ItemGroup>
   <ItemGroup>

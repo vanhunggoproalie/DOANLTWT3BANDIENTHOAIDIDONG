@@ -397,13 +397,29 @@
             });
         });
 
-        function addToCart(productId) {
+        function addToCart(productId, event) {
+
+            var btn = event.target;
+            var originalText = btn.innerText;
+
+            btn.innerText = "Đang thêm...";
+            btn.disabled = true;
+
             $.ajax({
                 url: '/Cart/AddToCart',
                 type: 'POST',
                 data: { id: productId, quantity: 1 },
                 success: function () {
                     alert("Đã thêm sản phẩm vào giỏ hàng!");
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra, vui lòng thử lại!");
+                },
+                complete: function () {
+
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+
                 }
             });
         }

@@ -1,0 +1,108 @@
+﻿@model DOANLTWT3BANDIENTHOAIDIDONG.Models.ViewModels.ProfileVM
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class='bx bxs-user-detail'></i> Thông tin cá nhân</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Hiển thị thông báo lỗi nếu có -->
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
+
+                    <div class="row">
+                        <!-- Thông tin tài khoản -->
+                        <div class="col-md-6">
+                            <h5 class="border-bottom pb-2 mb-3">Thông tin tài khoản</h5>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Tên đăng nhập:</label>
+                                <p class="form-control-plaintext">@Model.Username</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Vai trò:</label>
+                                <p class="form-control-plaintext">
+                                    @if (Model.UserRole == "Customer")
+                                    {
+                                        <span class="badge bg-success">Khách hàng</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info">@Model.UserRole</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin khách hàng -->
+                        <div class="col-md-6">
+                            <h5 class="border-bottom pb-2 mb-3">Thông tin khách hàng</h5>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Họ và tên:</label>
+                                <p class="form-control-plaintext">@Model.CustomerName</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Số điện thoại:</label>
+                                <p class="form-control-plaintext">@Model.CustomerPhone</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Email:</label>
+                                <p class="form-control-plaintext">@Model.CustomerEmail</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Địa chỉ:</label>
+                                <p class="form-control-plaintext">@Model.CustomerAddress</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nút hành động -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                <a href="@Url.Action("EditProfile", "Account")" class="btn btn-warning">
+                                    <i class='bx bxs-edit'></i> Chỉnh sửa thông tin
+                                </a>
+                                <a href="@Url.Action("ChangePassword", "Account")" class="btn btn-outline-primary">
+                                    <i class='bx bxs-lock-alt'></i> Đổi mật khẩu
+                                </a>
+                                <a href="@Url.Action("MyOrder", "Account")" class="btn btn-outline-info">
+                                    <i class='bx bxs-package'></i> Đơn hàng của tôi
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control-plaintext {
+        background: #f8f9fa;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: 1px solid #e9ecef;
+    }
+
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+</style>
+

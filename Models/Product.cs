@@ -34,6 +34,6 @@ namespace DOANLTWT3BANDIENTHOAIDIDONG.Models
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         [NotMapped]
-        public HttpPostedFileBase UpLoadImg { get; set; } 
+        public HttpPostedFile UpLoadImg {  get; set; }
     }
 }
